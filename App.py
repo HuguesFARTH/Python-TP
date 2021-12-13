@@ -7,4 +7,5 @@ class App():
     def __init__(self):
         print("init App")
         self.tk = tk.Tk()
-        self.tk.geometry("1000x500")
+        self.tk.geometry("1000x400")
+
