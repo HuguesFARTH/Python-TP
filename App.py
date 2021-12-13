@@ -13,7 +13,7 @@ class App():
         self.tk.minsize(main.xSize, main.ySize)
         self.tk.maxsize(main.xSize, main.ySize)
         self.gameFrame = IFrame.GameFrame(self)
-
+        
     def update(self):
         self.gameFrame.update()
         self.tk.update_idletasks()
