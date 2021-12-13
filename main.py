@@ -1,5 +1,5 @@
 import App
-import Time
+import time
 running = False
 FRAME_CAP = 60
 TICK_CAP = 60
