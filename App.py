@@ -9,14 +9,6 @@ class App():
         print("init App")
         self.main = main
         self.tk = tk.Tk()
-<<<<<<< Updated upstream
-        self.tk.geometry("1000x500")
-
-if __name__ == "__main__":
-    app = App()
-    app.tk.title("")
-    app.tk.mainloop()
-=======
         self.tk.geometry(str(main.xSize)+"x"+str(main.ySize))
         self.tk.minsize(main.xSize, main.ySize)
         self.tk.maxsize(main.xSize, main.ySize)
@@ -29,4 +21,3 @@ if __name__ == "__main__":
 
     def draw(self):
         self.gameFrame.draw()
->>>>>>> Stashed changes

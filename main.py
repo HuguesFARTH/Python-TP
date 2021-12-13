@@ -1,6 +1,5 @@
 import App
 import time
-<<<<<<< Updated upstream
 running = False
 FRAME_CAP = 60
 TICK_CAP = 60
@@ -119,7 +118,6 @@ class Main():
 
     def draw(self):
         self.app.draw()
->>>>>>> Stashed changes
 
 def current_millis():
     return round(time.time() * 1000)
