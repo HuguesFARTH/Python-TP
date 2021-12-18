@@ -3,6 +3,26 @@ import Player
 import Monster
 import Block
 
+class GameMenu:
+    def __init__(self,app):
+        self.app = app
+        selff.init()
+
+    def init(self):
+        print("init")
+
+    def update(self):
+        print("Update Frame")
+
+    def draw(self):
+        print("draw")
+        # self.canvas.delete("all")
+        # for ent in self.entities:
+        #     ent.draw()
+
+    def unBind(self):
+        self.frame.pack_forget()
+
 class GameFrame:
     def __init__(self, app):
         self.app = app
