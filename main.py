@@ -1,6 +1,7 @@
 import App
 import time
 
+
 class Main():
     def __init__(self):
         self.running = False
@@ -63,11 +64,14 @@ class Main():
     def draw(self):
         self.app.draw()
 
+
 def current_millis():
     return round(time.time() * 1000)
 
+
 def current_nano():
     return time.time_ns()
+
 
 if __name__ == "__main__":
     main = Main()

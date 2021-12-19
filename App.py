@@ -4,8 +4,9 @@ import ILib
 import random
 import IFrame
 
+
 class App():
-    def __init__(self,main):
+    def __init__(self, main):
         print("init App")
         self.main = main
         self.tk = tk.Tk()
@@ -15,18 +16,19 @@ class App():
         self.menu = "menu"
 
         self.gameFrame = IFrame.GameFrame(self)
-        self.gameFrame.unBind()
+        # self.gameFrame.unBind()
         self.menuFrame = IFrame.GameMenu(self)
 
     def update(self):
-        if self.menu == "play" :
+        if self.menu == "play":
             self.gameFrame.update()
             self.tk.update_idletasks()
             self.tk.update()
 
-    def menu(self):
-
+    # def menu(self):
+    #
     def play(self):
-        self.gameFrame.
+        self.gameFrame
+
     def draw(self):
         self.gameFrame.draw()

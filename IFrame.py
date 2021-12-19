@@ -3,10 +3,11 @@ import Player
 import Monster
 import Block
 
+
 class GameMenu:
     def __init__(self,app):
         self.app = app
-        selff.init()
+        self.init()
 
     def init(self):
         print("init")
@@ -22,6 +23,7 @@ class GameMenu:
 
     def unBind(self):
         self.frame.pack_forget()
+
 
 class GameFrame:
     def __init__(self, app):
