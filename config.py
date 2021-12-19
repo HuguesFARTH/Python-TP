@@ -67,7 +67,7 @@ class Config:
 
 
 
-config = Config('config.ini')
+# config = Config('config.ini')
 # print(config.read_config())
 
 

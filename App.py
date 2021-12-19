@@ -14,10 +14,10 @@ class App():
         self.tk.minsize(main.xSize, main.ySize)
         self.tk.maxsize(main.xSize, main.ySize)
         self.menu = "menu"
-
         self.gameFrame = IFrame.GameFrame(self)
-        # self.gameFrame.unBind()
+        self.gameFrame.unBind()
         self.menuFrame = IFrame.GameMenu(self)
+        self.tk.mainloop()
 
     def update(self):
         if self.menu == "play":
@@ -27,8 +27,9 @@ class App():
 
     # def menu(self):
     #
-    def play(self):
-        self.gameFrame
+
+    # def play(self):
+        # self.gameFrame.init()
 
     def draw(self):
         self.gameFrame.draw()

@@ -1,8 +1,9 @@
 import App
 import time
+import config
 
 
-class Main():
+class Main:
     def __init__(self):
         self.running = False
         self.FRAME_CAP = 60
@@ -21,7 +22,7 @@ class Main():
         self.running = False
 
     def exit(self):
-        self.app.tk.destroy
+        self.app.tk.destroy()
         exit(0)
 
     def loop(self):
