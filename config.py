@@ -36,11 +36,11 @@ class Config:
         :return:
         """
         config = configparser.ConfigParser()
-        config["move"] = {'up': "'up'",
-                          'down': "'down'",
-                          'right': "'right'",
-                          'left': "'left'"}
-        config["shoot"] = {'shoot': "'space'"}
+        config["move"] = {'up': "up",
+                          'down': "down",
+                          'right': "right",
+                          'left': "left"}
+        config["shoot"] = {'shoot': "space"}
 
         with open(self.file_name, 'w') as configfile:
             config.write(configfile)

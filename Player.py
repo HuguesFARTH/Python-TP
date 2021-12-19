@@ -23,7 +23,7 @@ class Player:
 
     def draw(self):
         """
-        create the player
+        draw the player
         :return:
         """
         self.canvas.create_image(self.pos[0], self.pos[1] - self.size / 2, image=self.save_img, anchor="center")

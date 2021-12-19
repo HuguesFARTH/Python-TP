@@ -13,17 +13,18 @@ class App():
         self.tk.geometry(str(main.xSize)+"x"+str(main.ySize))
         self.tk.minsize(main.xSize, main.ySize)
         self.tk.maxsize(main.xSize, main.ySize)
-        self.menu = "menu"
+        self.menu = "play"
         self.gameFrame = IFrame.GameFrame(self)
-        self.gameFrame.unBind()
-        self.menuFrame = IFrame.GameMenu(self)
-        self.tk.mainloop()
+        # self.gameFrame.unBind()
+        # self.menuFrame = IFrame.GameMenu(self)
 
     def update(self):
         if self.menu == "play":
             self.gameFrame.update()
             self.tk.update_idletasks()
             self.tk.update()
+        elif self.menu == "menu":
+            print("update menuFrame")
 
     # def menu(self):
     #
