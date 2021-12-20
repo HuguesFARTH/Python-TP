@@ -18,7 +18,7 @@ class Player:
         image = Image.open("assets/player.png")
         image = image.resize((self.size, self.size))
         self.save_img = ImageTk.PhotoImage(image)
-        self.config = config.Config('config.ini').read_config()
+        # self.config = config.Config('config.ini').read_config()
         pass
 
     def draw(self):
@@ -33,13 +33,13 @@ class Player:
         verify if a key is pressed and update the position of the player
         :return:
         """
-        if keyboard.is_pressed(self.config['up']):
+        if keyboard.is_pressed(self.app.config['up']):
             self.up()
-        if keyboard.is_pressed(self.config['down']):
+        if keyboard.is_pressed(self.app.config['down']):
             self.down()
-        if keyboard.is_pressed(self.config['left']):
+        if keyboard.is_pressed(self.app.config['left']):
             self.left()
-        if keyboard.is_pressed(self.config['right']):
+        if keyboard.is_pressed(self.app.config['right']):
             self.right()
         pass
 
@@ -74,10 +74,3 @@ class Player:
         print("hit")
         self.lives -= 1
         self.app.gameFrame.lifeLabel.configure(text="Lives: " + str(self.lives))
-
-
-# if __name__ == "__main__":
-#     app = 2
-#     canvas = 2
-#     player = Player(app, canvas)
-#     print(player.config['up'])

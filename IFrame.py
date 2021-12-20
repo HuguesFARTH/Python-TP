@@ -7,10 +7,19 @@ import Block
 class GameMenu:
     def __init__(self, app):
         self.app = app
+        self.gameFrame = GameFrame(self.app)
+        self.gameFrame.unBind()
         self.init()
 
     def init(self):
-        print("init")
+        self.frame = tk.Frame(self.app.tk, bg='gray')
+        self.frame.grid()
+
+        self.quitButton = tk.Button(self.frame, text="Quitter", command=self.app.main.stop)
+        self.quitButton.grid()
+
+        self.playButton = tk.Button(self.frame, text="jouer", command=self.play)
+        self.playButton.grid()
 
     def update(self):
         print("Update Frame")
@@ -22,8 +31,19 @@ class GameMenu:
         #     ent.draw()
 
     def unBind(self):
-        self.frame.pack_forget()
+        self.frame.grid_forget()
 
+    def play(self):
+        self.frame.grid_forget()
+        self.app.gameFrame.frame.grid()
+        self.app.menu = "play"
+        self.app.update()
+        self.app.draw()
+        self.unBind()
+        self.app.gameFrame.Bind()
+
+    def settings(self):
+        pass
 
 class GameFrame:
     def __init__(self, app):
@@ -56,11 +76,13 @@ class GameFrame:
         self.player = Player.Player(self.app, self.canvas)
         self.entities.append(self.player)
         stone = Block.Block(self.app, self.canvas, [500, 200])
+        stone2 = Block.Block(self.app, self.canvas, [100, 200])
         self.entities.append(stone)
+        self.entities.append(stone2)
         for i in range(0, 17):
             monster1 = Monster.Monster(self.app, self.canvas, [50 + i * 50, 100])
             self.entities.append(monster1)
-        self.app.tk.bind('<space>', self.player.shoot)
+        self.app.tk.bind('<'+self.app.config['shoot']+'>', self.player.shoot)
 
         self.scoreLabel = tk.Label(self.topFrame, text="Score: " + str(self.score))
         self.scoreLabel.grid(row=0, column=0)
@@ -69,9 +91,9 @@ class GameFrame:
         self.lifeLabel = tk.Label(self.topFrame, text="Lives: " + str(self.player.lives))
         self.lifeLabel.grid(row=0, column=3)
 
-
     def newgame(self):
-        print("newgame")
+        self.unBind()
+        self.init()
 
     def update(self):
         # print("Update Frame")
@@ -85,5 +107,10 @@ class GameFrame:
             ent.draw()
 
     def unBind(self):
-        self.frame.pack_forget()
-        self.app.tk.unbind("<space>")
+        self.frame.grid_forget()
+        self.app.tk.unbind('<'+self.app.config['shoot']+'>')
+
+    def Bind(self):
+        self.frame.grid()
+        self.app.tk.bind('<' + self.app.config['shoot'] + '>', self.player.shoot)
+

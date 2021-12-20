@@ -14,7 +14,7 @@ class Main:
     def start(self):
         self.running = True
         self.app = App.App(self)
-        self.app.tk.title("")
+        self.app.tk.title("space invader")
         self.app.tk.protocol("WM_DELETE_WINDOW", self.stop)
         self.loop()
 
@@ -40,11 +40,11 @@ class Main:
                 pass
             else:
                 exit()
-            if (time.time_ns() - lastTickTime > tickTime):
+            if time.time_ns() - lastTickTime > tickTime:
                 lastTickTime += tickTime
                 self.update()
-                ticks +=1
-            elif (time.time_ns() - lastRenderTime > renderTime):
+                ticks += 1
+            elif time.time_ns() - lastRenderTime > renderTime:
                 lastRenderTime += renderTime
                 self.draw()
                 frames += 1
