@@ -33,10 +33,10 @@ class Player:
         verify if a key is pressed and update the position of the player
         :return:
         """
-        if keyboard.is_pressed(self.app.config['up']):
-            self.up()
-        if keyboard.is_pressed(self.app.config['down']):
-            self.down()
+        # if keyboard.is_pressed(self.app.config['up']):
+        #     self.up()
+        # if keyboard.is_pressed(self.app.config['down']):
+        #     self.down()
         if keyboard.is_pressed(self.app.config['left']):
             self.left()
         if keyboard.is_pressed(self.app.config['right']):
@@ -53,15 +53,15 @@ class Player:
         if self.pos[0] > int(self.canvas.cget('width')):
             self.pos[0] = int(self.canvas.cget('width'))
 
-    def up(self):
-        self.pos[1] -= self.speed
-        if self.pos[1] < self.size / 2:
-            self.pos[1] = self.size / 2
-
-    def down(self):
-        self.pos[1] += self.speed
-        if self.pos[1] > int(self.canvas.cget('height')):
-            self.pos[1] = int(self.canvas.cget('height'))
+    # def up(self):
+    #     self.pos[1] -= self.speed
+    #     if self.pos[1] < self.size / 2:
+    #         self.pos[1] = self.size / 2
+    #
+    # def down(self):
+    #     self.pos[1] += self.speed
+    #     if self.pos[1] > int(self.canvas.cget('height')):
+    #         self.pos[1] = int(self.canvas.cget('height'))
 
     def shoot(self, event):
         shoot = Projectile.Projectile(self.app, self.canvas, [0, -1], [self.pos[0], self.pos[1] - self.size / 2], True)

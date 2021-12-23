@@ -3,13 +3,6 @@ import keyboard
 import os
 
 
-# def isAdmin():
-#     try:
-#         is_admin = (os.getuid() == 0)	# if Unis
-#     except AttributeError:
-#         is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0	# else if Windows
-#     return is_admin
-
 class Config:
     def __init__(self,file_name):
         self.file_name = file_name
@@ -60,27 +53,16 @@ class Config:
 
     def modify_config(self):
         if self.file_exist == True:
-            pass
+            key_pressed = keyboard.read_key(suppress=False)
         else:
             self.file_exist = True
             self.default_config()
+        return key_pressed
 
 
 
 # config = Config('config.ini')
-# print(config.read_config())
-
-
-# def verify_config(file_path):
-#     try:
-#         with open(file_path) as file:
-#             return True
-#     except FileNotFoundError:
-#         default_config(file_path)
-#         exit()
-
-
-
+# print(config.modify_config())
 
 
 # def key():

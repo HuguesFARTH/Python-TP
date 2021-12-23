@@ -6,29 +6,36 @@ import Block
 
 class GameMenu:
     def __init__(self, app):
-        self.app = app
-        self.gameFrame = GameFrame(self.app)
-        self.gameFrame.unBind()
+        self.app = app  # on importe la classe app
+        self.frame = None  # création de la variable de la frame menu
+        self.quitButton = None  # création des variables des boutons
+        self.playButton = None
+        self.settingsButton = None
+
         self.init()
 
     def init(self):
-        self.frame = tk.Frame(self.app.tk, bg='gray')
-        self.frame.grid()
+        self.frame = tk.Frame(self.app.tk, width=self.app.main.xSize, height=self.app.main.xSize)
+        self.frame.grid(ipadx=0, ipady=30, padx=390, pady=200)
 
-        self.quitButton = tk.Button(self.frame, text="Quitter", command=self.app.main.stop)
-        self.quitButton.grid()
+        self.frame.columnconfigure(0, weight=1)
+        self.frame.columnconfigure(1, weight=3)
+        self.frame.columnconfigure(2, weight=1)
 
-        self.playButton = tk.Button(self.frame, text="jouer", command=self.play)
-        self.playButton.grid()
+        self.frame.rowconfigure(0, weight=2)
+        self.frame.rowconfigure(1, weight=1)
+        self.frame.rowconfigure(2, weight=2)
+        self.frame.rowconfigure(3, weight=1)
+        self.frame.rowconfigure(4, weight=2)
 
-    def update(self):
-        print("Update Frame")
+        self.playButton = tk.Button(self.frame, text="Jouer", width="20", height="2", command=self.play)
+        self.playButton.grid(row=0, column=1)
 
-    def draw(self):
-        print("draw")
-        # self.canvas.delete("all")
-        # for ent in self.entities:
-        #     ent.draw()
+        self.quitButton = tk.Button(self.frame, text="Quitter", width="20", height="2", command=self.app.main.stop)
+        self.quitButton.grid(row=2, column=1)
+
+        self.settingsButton = tk.Button(self.frame, text="Paramètres", width="20", height="2", command=self.settings)
+        self.settingsButton.grid(row=4, column=1)
 
     def unBind(self):
         self.frame.grid_forget()
@@ -43,11 +50,25 @@ class GameMenu:
         self.app.gameFrame.Bind()
 
     def settings(self):
-        pass
+        self.frame.grid_forget()
+        self.app.settings.init()
+        self.app.menu = "settings"
+        self.app.update()
+        self.unBind()
+
 
 class GameFrame:
     def __init__(self, app):
         self.app = app
+
+        self.entities = None
+        self.score = None
+        self.frame = None
+        self.leftFrame = None
+        self.topFrame = None
+        self.canvas = None
+        self.rightFrame = None
+
         self.init()
 
     def init(self):
@@ -58,40 +79,47 @@ class GameFrame:
         # TKINTER
         self.frame = tk.Frame(self.app.tk, bg='gray')
         self.frame.grid()
+
         self.leftFrame = tk.Frame(self.frame)
         self.leftFrame.grid(row=0, column=0)
+
         self.topFrame = tk.Frame(self.leftFrame)
         self.topFrame.grid()
 
         self.canvas = tk.Canvas(self.leftFrame, bg='black', width=900, height=550)
         self.canvas.grid(row=1)
 
-        self.rightFrame = tk.Frame(self.frame, bg='white')
+        self.rightFrame = tk.Frame(self.frame)
         self.rightFrame.grid(row=0, column=1)
-        self.rejouerButton = tk.Button(self.rightFrame, text="New game", command=self.newgame)
-        self.rejouerButton.grid(row=0)
+
         self.quitButton = tk.Button(self.rightFrame, text="Quitter", command=self.app.main.stop)
         self.quitButton.grid(row=1)
 
+        self.rejouerButton = tk.Button(self.rightFrame, text="New game", command=self.new_game)
+        self.rejouerButton.grid(row=0)
+
         self.player = Player.Player(self.app, self.canvas)
         self.entities.append(self.player)
+
         stone = Block.Block(self.app, self.canvas, [500, 200])
         stone2 = Block.Block(self.app, self.canvas, [100, 200])
         self.entities.append(stone)
         self.entities.append(stone2)
+
         for i in range(0, 17):
             monster1 = Monster.Monster(self.app, self.canvas, [50 + i * 50, 100])
             self.entities.append(monster1)
-        self.app.tk.bind('<'+self.app.config['shoot']+'>', self.player.shoot)
-
+        self.app.tk.bind('<' + self.app.config['shoot'] + '>', self.player.shoot)
         self.scoreLabel = tk.Label(self.topFrame, text="Score: " + str(self.score))
         self.scoreLabel.grid(row=0, column=0)
+
         self.invi1 = tk.Label(self.topFrame, text="")
         self.invi1.grid(row=0, column=2, padx=100)
+
         self.lifeLabel = tk.Label(self.topFrame, text="Lives: " + str(self.player.lives))
         self.lifeLabel.grid(row=0, column=3)
 
-    def newgame(self):
+    def new_game(self):
         self.unBind()
         self.init()
 
@@ -108,9 +136,53 @@ class GameFrame:
 
     def unBind(self):
         self.frame.grid_forget()
-        self.app.tk.unbind('<'+self.app.config['shoot']+'>')
+        self.app.tk.unbind('<' + self.app.config['shoot'] + '>')
 
     def Bind(self):
         self.frame.grid()
         self.app.tk.bind('<' + self.app.config['shoot'] + '>', self.player.shoot)
+
+
+class SettingsFrame:
+    def __init__(self, app):
+        self.app = app
+
+        self.frame = None
+        self.back = None
+        self.pref = None
+
+        self.init()
+
+    def init(self):
+        self.frame = tk.Frame(self.app.tk, bg='gray')
+        self.frame.grid(ipady=250, ipadx=100, padx=100)
+
+        self.frame.columnconfigure(0, weight=1)
+        self.frame.columnconfigure(1, weight=1)
+        self.frame.columnconfigure(2, weight=1)
+        self.frame.columnconfigure(3, weight=1)
+        self.frame.columnconfigure(4, weight=1)
+
+        self.pref = tk.Label(self.frame, text="Préférences clavier", font=("Arial", 25))
+        self.pref.grid(columnspan=3, column=1)
+
+        self.vide1 = tk.Label(self.frame, text="         ", font=("Arial", 25))
+        self.vide1.grid(columnspan=1, column=0)
+
+        self.vide2 = tk.Label(self.frame, text="         ", font=("Arial", 25))
+        self.vide2.grid(columnspan=1, column=4)
+
+        self.afficher_settings()
+        self.back = tk.Button(self.frame, text="Retour", command=self.retour_menu, width=15, font=("Arial", 20))
+        self.back.grid()
+
+    def retour_menu(self):
+        self.frame.grid_forget()
+        self.app.menu = "menu"
+        self.app.menuFrame.init()
+
+    def afficher_settings(self):
+        self.set = tk.Label(self.frame, text="à gauche", font=("Arial", 25))
+        self.set.grid()
+        pass
 

@@ -1,7 +1,8 @@
-import tkinter as tk
-from PIL import Image,ImageTk
-import random
 import Projectile
+import random
+
+from PIL import Image, ImageTk
+
 
 class Monster:
     def __init__(self,app,canvas,pos):
@@ -21,7 +22,7 @@ class Monster:
     def remove(self):
         self.app.gameFrame.entities.remove(self)
         self.app.gameFrame.score += 100
-        self.app.gameFrame.scoreLabel.configure(text = "Lives: " + str(self.app.gameFrame.score))
+        self.app.gameFrame.scoreLabel.configure(text ="Score: " + str(self.app.gameFrame.score))
 
     def hit(self):
         self.remove()
