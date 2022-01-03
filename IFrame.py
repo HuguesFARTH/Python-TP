@@ -47,7 +47,7 @@ class GameMenu:
         self.app.update()
         self.app.draw()
         self.unBind()
-        self.app.gameFrame.Bind()
+        self.app.gameFrame.new_game()
 
     def settings(self):
         self.frame.grid_forget()

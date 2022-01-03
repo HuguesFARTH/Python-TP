@@ -10,7 +10,7 @@ class App:
     def __init__(self, main):
         print("init App")
         self.main = main
-
+        
         self.tk = tk.Tk()
         self.tk.geometry(str(main.xSize) + "x" + str(main.ySize))
         self.tk.minsize(main.xSize, main.ySize)
