@@ -4,6 +4,7 @@ import Monster
 import Block
 import keyboard
 
+
 class GameMenu:
     def __init__(self, app):
         self.app = app  # on importe la classe app
@@ -111,8 +112,8 @@ class GameFrame:
         self.player = Player.Player(self.app, self.canvas)
         self.entities.append(self.player)
 
-        for i in range(0,20):
-            stone = Block.Block(self.app, self.canvas, [30*i, 200])
+        for i in range(0, 20):
+            stone = Block.Block(self.app, self.canvas, [30 * i, 200])
             self.entities.append(stone)
 
         for i in range(0, 1):
@@ -152,17 +153,19 @@ class GameFrame:
     def drawGameOver(self):
         xp = (int(self.canvas.cget('width')) / 2)
         yp = (int(self.canvas.cget('height')) / 2)
-        self.canvas.create_rectangle(0,0,int(self.canvas.cget('width'))+10,int(self.canvas.cget('height'))+10, fill="gray", stipple="gray50")
-        self.canvas.create_text(xp,yp, font="bold 40",text = "Game Over" , anchor = "center")
+        self.canvas.create_rectangle(0, 0, int(self.canvas.cget('width')) + 10, int(self.canvas.cget('height')) + 10,
+                                     fill="gray", stipple="gray50")
+        self.canvas.create_text(xp, yp, font="bold 40", text="Game Over", anchor="center")
         # self.canvas.create_rectangle(xp-13,yp+25,xp-3,yp-50, fill="blue")
         # self.canvas.create_rectangle(xp+3,yp+25,xp+13,yp-50, fill="blue")
 
     def drawPause(self):
         xp = (int(self.canvas.cget('width')) / 2)
         yp = (int(self.canvas.cget('height')) / 2)
-        self.canvas.create_rectangle(0,0,int(self.canvas.cget('width'))+10,int(self.canvas.cget('height'))+10, fill="gray", stipple="gray50")
-        self.canvas.create_rectangle(xp-13,yp+25,xp-3,yp-50, fill="blue")
-        self.canvas.create_rectangle(xp+3,yp+25,xp+13,yp-50, fill="blue")
+        self.canvas.create_rectangle(0, 0, int(self.canvas.cget('width')) + 10, int(self.canvas.cget('height')) + 10,
+                                     fill="gray", stipple="gray50")
+        self.canvas.create_rectangle(xp - 13, yp + 25, xp - 3, yp - 50, fill="blue")
+        self.canvas.create_rectangle(xp + 3, yp + 25, xp + 13, yp - 50, fill="blue")
 
     def unBind(self):
         self.frame.grid_forget()
@@ -179,6 +182,7 @@ class GameFrame:
         self.app.menu = "menu"
         self.app.menuFrame.init()
 
+
 class SettingsFrame:
     def __init__(self, app):
         self.app = app
@@ -191,33 +195,58 @@ class SettingsFrame:
 
     def init(self):
         self.frame = tk.Frame(self.app.tk, bg='gray')
-        self.frame.grid(ipady=250, ipadx=100, padx=100)
+        self.frame.grid()
 
         self.frame.columnconfigure(0, weight=1)
         self.frame.columnconfigure(1, weight=1)
-        self.frame.columnconfigure(2, weight=1)
-        self.frame.columnconfigure(3, weight=1)
-        self.frame.columnconfigure(4, weight=1)
+
+        self.frame.rowconfigure(0)
+        self.frame.rowconfigure(1)
+        self.frame.rowconfigure(2)
+        self.frame.rowconfigure(3)
+        self.frame.rowconfigure(4)
+        self.frame.rowconfigure(5)
 
         self.pref = tk.Label(self.frame, text="Préférences clavier", font=("Arial", 25))
-        self.pref.grid(columnspan=3, column=1)
-
-        self.vide1 = tk.Label(self.frame, text="         ", font=("Arial", 25))
-        self.vide1.grid(columnspan=1, column=0)
-
-        self.vide2 = tk.Label(self.frame, text="         ", font=("Arial", 25))
-        self.vide2.grid(columnspan=1, column=4)
+        self.pref.grid(columnspan=3, column=0, padx=20, pady=20)
 
         self.afficher_settings()
+
         self.back = tk.Button(self.frame, text="Retour", command=self.retour_menu, width=15, font=("Arial", 20))
-        self.back.grid()
+        self.back.grid(row=5, column=0, columnspan=3, pady=30)
 
     def retour_menu(self):
         self.frame.grid_forget()
         self.app.menu = "menu"
         self.app.menuFrame.init()
 
-    def afficher_settings(self):
-        self.set = tk.Label(self.frame, text="à gauche", font=("Arial", 25))
-        self.set.grid()
-        pass
+    def afficher_settings(self):  # TODO a tout refaire
+        self.left = tk.Label(self.frame, text="Gauche:", font=("Arial", 25))
+        self.left.grid(column=0, pady=30, padx=10)
+
+        self.right = tk.Label(self.frame, text="Droite:", font=("Arial", 25))
+        self.right.grid(column=0, pady=30, padx=10)
+
+        self.shoot = tk.Label(self.frame, text="Tirer:", font=("Arial", 25))
+        self.shoot.grid(column=0, pady=30, padx=10)
+
+        self.pause = tk.Label(self.frame, text="Pause:", font=("Arial", 25))
+        self.pause.grid(column=0, pady=30,padx=10)
+
+        self.right_key = tk.Label(self.frame, text=self.app.config.get("shoot"), font=("Arial", 25))
+        self.right_key.grid(column=1, pady=30, row=2)
+
+        self.left_button = tk.Button(self.frame, text="Modifier")
+        self.left_button.grid(column=2, pady=30, padx=20, row=1)
+
+        self.right_button = tk.Button(self.frame, text="Modifier")
+        self.right_button.grid(column=2, pady=30, padx=40, row=2)
+
+        self.shoot_button = tk.Button(self.frame, text="Modifier")
+        self.shoot_button.grid(column=2, pady=30, padx=20, row=3)
+
+        self.pause_button = tk.Button(self.frame, text="Modifier")
+        self.pause_button.grid(column=2, pady=30, padx=20, row=4)
+
+    def key_used(self):
+        return
