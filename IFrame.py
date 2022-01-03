@@ -2,7 +2,7 @@ import tkinter as tk
 import Player
 import Monster
 import Block
-
+import keyboard
 
 class GameMenu:
     def __init__(self, app):
@@ -68,8 +68,14 @@ class GameFrame:
         self.topFrame = None
         self.canvas = None
         self.rightFrame = None
+        self.pause = False
 
         self.init()
+
+    def pauseFct(self, event):
+        print("pause")
+        self.pause = not self.pause
+        print(self.pause)
 
     def init(self):
         # GAME
@@ -92,7 +98,7 @@ class GameFrame:
         self.rightFrame = tk.Frame(self.frame)
         self.rightFrame.grid(row=0, column=1)
 
-        self.quitButton = tk.Button(self.rightFrame, text="Quitter", command=self.app.main.stop)
+        self.quitButton = tk.Button(self.rightFrame, text="Menu", command=self.retour_menu)
         self.quitButton.grid(row=1)
 
         self.rejouerButton = tk.Button(self.rightFrame, text="New game", command=self.new_game)
@@ -126,6 +132,8 @@ class GameFrame:
     def update(self):
         # print("Update Frame")
         # self.i += 1
+        if self.pause:
+            return
         for ent in self.entities:
             ent.update()
 
@@ -133,15 +141,30 @@ class GameFrame:
         self.canvas.delete("all")
         for ent in self.entities:
             ent.draw()
+        if self.pause:
+            self.drawPause()
+
+    def drawPause(self):
+        xp = (int(self.canvas.cget('width')) / 2)
+        yp = (int(self.canvas.cget('height')) / 2)
+        self.canvas.create_rectangle(0,0,int(self.canvas.cget('width'))+10,int(self.canvas.cget('height'))+10, fill="gray", stipple="gray50")
+        self.canvas.create_rectangle(xp-13,yp+25,xp-3,yp-50, fill="blue")
+        self.canvas.create_rectangle(xp+3,yp+25,xp+13,yp-50, fill="blue")
 
     def unBind(self):
         self.frame.grid_forget()
         self.app.tk.unbind('<' + self.app.config['shoot'] + '>')
+        self.app.tk.unbind('<' + self.app.config['pause'] + '>')
 
     def Bind(self):
         self.frame.grid()
         self.app.tk.bind('<' + self.app.config['shoot'] + '>', self.player.shoot)
+        self.app.tk.bind('<' + self.app.config['pause'] + '>', self.pauseFct)
 
+    def retour_menu(self):
+        self.frame.grid_forget()
+        self.app.menu = "menu"
+        self.app.menuFrame.init()
 
 class SettingsFrame:
     def __init__(self, app):
@@ -185,4 +208,3 @@ class SettingsFrame:
         self.set = tk.Label(self.frame, text="à gauche", font=("Arial", 25))
         self.set.grid()
         pass
-
