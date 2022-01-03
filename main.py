@@ -53,7 +53,7 @@ class Main:
 
             if current_millis() - timer > 1000:
                 timer += 1000
-                print(ticks, " ticks, ",frames," fps" )
+                print(ticks, " ticks, ",frames," fps")
                 ticks = 0
                 frames = 0
 

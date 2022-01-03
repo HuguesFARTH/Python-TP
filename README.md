@@ -4,3 +4,4 @@ Il nous reste à faire: \
 -finir le menu\
 -développer le jeu enfin ajouter les méchants\
 -faire en sorte que notre bonhomme meurt à la fin quand il a plus de vie
+-faire le système d'assets (optimiser) en évitant de charger plusieurs fois les mêmes textures

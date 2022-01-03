@@ -48,7 +48,7 @@ class GameMenu:
         self.app.update()
         self.app.draw()
         self.unBind()
-        self.app.gameFrame.Bind()
+        self.app.gameFrame.new_game()
 
     def settings(self):
         self.frame.grid_forget()
@@ -74,7 +74,7 @@ class GameFrame:
 
     def pauseFct(self, event):
         self.pause = not self.pause
-
+        print("pause")
     def gameOverFct(self):
         print("game over")
         self.gameOver = True
@@ -132,6 +132,7 @@ class GameFrame:
     def new_game(self):
         self.unBind()
         self.init()
+        self.Bind()
 
     def update(self):
         # print("Update Frame")

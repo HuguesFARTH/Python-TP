@@ -14,10 +14,9 @@ class Player:
         self.canvas = canvas
         self.speed = 10
         self.pos = [0,0]
+        self.lastShoot = 0
+        self.shootRate = 1000 #
         self.pos = [int(self.canvas.cget('width')) / 2, int(self.canvas.cget('height'))]
-        image = Image.open("assets/player.png")
-        image = image.resize((self.size, self.size))
-        self.save_img = ImageTk.PhotoImage(image)
         # self.config = config.Config('config.ini').read_config()
         pass
 
@@ -26,7 +25,7 @@ class Player:
         draw the player
         :return:
         """
-        self.canvas.create_image(self.pos[0], self.pos[1] - self.size / 2, image=self.save_img, anchor="center")
+        self.canvas.create_image(self.pos[0], self.pos[1] - self.size / 2, image=self.app.assets['player'][0], anchor="center")
 
     def update(self):
         """
