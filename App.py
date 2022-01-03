@@ -18,7 +18,7 @@ class App:
 
         self.config = config.Config('config.ini').read_config()
         self.menu = "menu"
-
+        
         self.gameFrame = IFrame.GameFrame(self)
         self.gameFrame.unBind()
 
