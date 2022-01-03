@@ -34,6 +34,7 @@ class Config:
                           'right': "right",
                           'left': "left"}
         config["shoot"] = {'shoot': "space"}
+        config["pause"] = {'pause': "p"}
 
         with open(self.file_name, 'w') as configfile:
             config.write(configfile)
@@ -48,6 +49,7 @@ class Config:
         touches['right'] = config['move']['right']
         touches['left'] = config['move']['left']
         touches['shoot'] = config['shoot']['shoot']
+        touches['pause'] = config['pause']['pause']
         return touches
 
 

@@ -17,7 +17,6 @@ class App:
         self.tk.maxsize(main.xSize, main.ySize)
 
         self.config = config.Config('config.ini').read_config()
-        self.config["pause"] = "p"
         self.menu = "menu"
 
         self.gameFrame = IFrame.GameFrame(self)
