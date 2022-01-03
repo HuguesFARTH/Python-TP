@@ -73,7 +73,7 @@ class GameFrame:
 
     def pauseFct(self, event):
         self.pause = not self.pause
-
+        print("pause")
     def gameOverFct(self):
         print("game over")
         self.gameOver = True
@@ -131,6 +131,7 @@ class GameFrame:
     def new_game(self):
         self.unBind()
         self.init()
+        self.Bind()
 
     def update(self):
         # print("Update Frame")
