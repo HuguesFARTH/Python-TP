@@ -11,12 +11,12 @@ class Monster:
         self.size = 30
         self.app = app
         self.canvas = canvas
-        self.speed = 10
+        self.speed = 30
         self.pos = pos
         image = Image.open("assets/monster_yellow.png")
         image = image.resize((self.size, self.size))
         self.save_img =ImageTk.PhotoImage(image)
-        self.proba_tir = 1000/60
+        self.proba_tir = 1000/self.app.main.TICK_CAP
         self.collideCount = 0
         self.collideCountFake = False
 
@@ -64,7 +64,6 @@ class Monster:
                     self.collideCountFake = True
                     self.collideCount += 1
                     ent.hit()
-                print("collide: " , ent)
                 return
 
     def shoot(self):

@@ -45,16 +45,7 @@ class Projectile:
             elif math.pow(self.pos[0]-ent.pos[0],2) + math.pow(self.pos[1]-ent.pos[1],2)< math.pow(self.rayon + ent.size/2,2):
                 self.remove()
                 ent.hit()
-                print("collide: " , ent)
                 return
-
-
-
-
-
-
-
-
 # root = tk.Tk()
 # root.geometry("600x600")
 # parent = tk.Canvas(root, width=500, height=500, bg= 'blue')

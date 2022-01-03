@@ -72,9 +72,7 @@ class GameFrame:
         self.init()
 
     def pauseFct(self, event):
-        print("pause")
         self.pause = not self.pause
-        print(self.pause)
 
     def gameOverFct(self):
         print("game over")
