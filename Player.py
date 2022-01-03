@@ -68,9 +68,20 @@ class Player:
         self.app.gameFrame.entities.append(shoot)
 
     def remove(self):
-        print("die")
+        print("remove Player")
+        self.app.gameFrame.entities.remove(self)
+
+    def kill(self):
+        print("die of Player")
+        self.lives = 0
+        self.app.gameFrame.lifeLabel.configure(text="Lives: " + str(self.lives))
+        self.remove()
+        self.app.gameFrame.gameOverFct()
 
     def hit(self):
-        print("hit")
+        print("hit Player")
         self.lives -= 1
-        self.app.gameFrame.lifeLabel.configure(text="Lives: " + str(self.lives))
+        if self.lives <= 0:
+            self.kill()
+        else:
+            self.app.gameFrame.lifeLabel.configure(text="Lives: " + str(self.lives))

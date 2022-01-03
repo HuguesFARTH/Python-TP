@@ -68,7 +68,6 @@ class GameFrame:
         self.topFrame = None
         self.canvas = None
         self.rightFrame = None
-        self.pause = False
 
         self.init()
 
@@ -77,10 +76,17 @@ class GameFrame:
         self.pause = not self.pause
         print(self.pause)
 
+    def gameOverFct(self):
+        print("game over")
+        self.gameOver = True
+
     def init(self):
         # GAME
         self.entities = []
         self.score = 0
+
+        self.pause = False
+        self.gameOver = False
 
         # TKINTER
         self.frame = tk.Frame(self.app.tk, bg='gray')
@@ -107,12 +113,11 @@ class GameFrame:
         self.player = Player.Player(self.app, self.canvas)
         self.entities.append(self.player)
 
-        stone = Block.Block(self.app, self.canvas, [500, 200])
-        stone2 = Block.Block(self.app, self.canvas, [100, 200])
-        self.entities.append(stone)
-        self.entities.append(stone2)
+        for i in range(0,20):
+            stone = Block.Block(self.app, self.canvas, [30*i, 200])
+            self.entities.append(stone)
 
-        for i in range(0, 17):
+        for i in range(0, 1):
             monster1 = Monster.Monster(self.app, self.canvas, [50 + i * 50, 100])
             self.entities.append(monster1)
         self.app.tk.bind('<' + self.app.config['shoot'] + '>', self.player.shoot)
@@ -132,7 +137,7 @@ class GameFrame:
     def update(self):
         # print("Update Frame")
         # self.i += 1
-        if self.pause:
+        if self.pause or self.gameOver:
             return
         for ent in self.entities:
             ent.update()
@@ -141,8 +146,18 @@ class GameFrame:
         self.canvas.delete("all")
         for ent in self.entities:
             ent.draw()
-        if self.pause:
+        if self.gameOver:
+            self.drawGameOver()
+        elif self.pause:
             self.drawPause()
+
+    def drawGameOver(self):
+        xp = (int(self.canvas.cget('width')) / 2)
+        yp = (int(self.canvas.cget('height')) / 2)
+        self.canvas.create_rectangle(0,0,int(self.canvas.cget('width'))+10,int(self.canvas.cget('height'))+10, fill="gray", stipple="gray50")
+        self.canvas.create_text(xp,yp, font="bold 40",text = "Game Over" , anchor = "center")
+        # self.canvas.create_rectangle(xp-13,yp+25,xp-3,yp-50, fill="blue")
+        # self.canvas.create_rectangle(xp+3,yp+25,xp+13,yp-50, fill="blue")
 
     def drawPause(self):
         xp = (int(self.canvas.cget('width')) / 2)
