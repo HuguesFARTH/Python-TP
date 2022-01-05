@@ -8,14 +8,14 @@ import config
 
 class Player:
     def __init__(self, app, canvas):
-        self.size = 100
-        self.lives = 3
+        self.size = 90
+        self.life = 3
         self.app = app
         self.canvas = canvas
         self.speed = 10
         self.pos = [0,0]
         self.lastShoot = 0
-        self.shootRate = 1000 #
+        self.shootRate = 1000 #TODO
         self.pos = [int(self.canvas.cget('width')) / 2, int(self.canvas.cget('height'))]
         # self.config = config.Config('config.ini').read_config()
         pass
@@ -67,20 +67,18 @@ class Player:
         self.app.gameFrame.entities.append(shoot)
 
     def remove(self):
-        print("remove Player")
-        self.app.gameFrame.entities.remove(self)
+        if self in self.app.gameFrame.entities:
+            self.app.gameFrame.entities.remove(self)
 
     def kill(self):
-        print("die of Player")
-        self.lives = 0
-        self.app.gameFrame.lifeLabel.configure(text="Lives: " + str(self.lives))
+        self.life = 0
+        self.app.gameFrame.lifeLabel.configure(text="Vies: " + str(self.life))
         self.remove()
         self.app.gameFrame.gameOverFct()
 
     def hit(self):
-        print("hit Player")
-        self.lives -= 1
-        if self.lives <= 0:
+        self.life -= 1
+        if self.life <= 0:
             self.kill()
         else:
-            self.app.gameFrame.lifeLabel.configure(text="Lives: " + str(self.lives))
+            self.app.gameFrame.lifeLabel.configure(text="Vies: " + str(self.life))

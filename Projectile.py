@@ -32,7 +32,8 @@ class Projectile:
 
 
     def remove(self):
-        self.app.gameFrame.entities.remove(self)
+        if self in self.app.gameFrame.entities:
+            self.app.gameFrame.entities.remove(self)
 
     def checkCollisions(self):
         for ent in self.app.gameFrame.entities:
