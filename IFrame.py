@@ -114,22 +114,17 @@ class GameFrame:
         self.rejouerButton = tk.Button(self.rightFrame, text="New game", command=self.new_game)
         self.rejouerButton.grid(row=0)
 
-        # SPAWN DES ENTITES
+        # ---- SPAWN DES ENTITES -----
+
+        # Player
         self.player = Player.Player(self.app, self.canvas)
         self.entities.append(self.player)
 
+        # Blocks
         for info in self.level.blocksInfo:
-            stone = Block.Block(self.app, self.canvas, info[0], life = info[1])
+            stone = Block.Block(self.app, self.canvas, info[0].copy(), life = info[1])
             self.entities.append(stone)
 
-        for i in range(0, 5):
-            shooter = True if random.randint(0,1) == 1 else False
-            boss = True if random.randint(0,1) == 1 else False
-            # boss = False
-            # shooter = False
-            # life = 5
-            monster1 = Monster.Monster(self.app, self.canvas, [50 + i * 50, 100], shooter = shooter, boss = boss)
-            self.entities.append(monster1)
         self.app.tk.bind('<' + self.app.config['shoot'] + '>', self.player.shoot)
         self.scoreLabel = tk.Label(self.topFrame, text="Score: " + str(self.score))
         self.scoreLabel.grid(row=0, column=0)
@@ -147,22 +142,46 @@ class GameFrame:
         self.Bind()
 
     def update(self):
+
+        c = self.countMonsters()
+        self.numberSpeedCount = 0 if c == 0 else 0.5 if c >= self.level.maxMonsters else 1 - (0.5*c/self.level.maxMonsters)
         if self.pause or self.gameOver:
             return
+        # Update des entitées
         for ent in self.entities:
             ent.update()
-        for liste in self.level.monsterSpawnPoint:
-            if self.canSpawn(liste):
-                spawnMob(liste)
+
+        # Système de génération des monstres
+        if c < self.level.maxMonsters:
+            for liste in self.level.monsterSpawnPoint:
+                if self.canSpawn(liste):
+                    self.spawnMob(liste)
+                    c += 1
+                    if c >= self.level.maxMonsters:
+                        return
+
+    def getMonsters(self):
+        c = []
+        for entity in self.entities:
+            if isinstance(entity, Monster.Monster):
+                c.append(entity)
+        return c
+
+    def countMonsters(self):
+        return len(self.getMonsters())
 
     # TODO système de spawn
 
     # l correspond à une liste info de spawn des monstres dans Level
     def canSpawn(self,l):
-        return False
+        return random.randint(0,1000) <= 50
 
-    def spawnMob(self):
-        pass
+    def spawnMob(self,l):
+        pos = l[0].copy()
+        boss = random.randint(0,1000) <= l[1]
+        shooter = random.randint(0,1000) <= l[2]
+        monster = Monster.Monster(self.app, self.canvas, pos, shooter = shooter, boss = boss)
+        self.entities.append(monster)
 
     def draw(self):
         self.canvas.delete("all")

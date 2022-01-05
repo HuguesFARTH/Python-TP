@@ -12,7 +12,7 @@ class Player:
         self.life = 3
         self.app = app
         self.canvas = canvas
-        self.speed = 10
+        self.speed = 20
         self.pos = [0,0]
         self.lastShoot = 0
         self.shootRate = 1000 #TODO
@@ -75,6 +75,10 @@ class Player:
         self.app.gameFrame.lifeLabel.configure(text="Vies: " + str(self.life))
         self.remove()
         self.app.gameFrame.gameOverFct()
+
+    def heal(self):
+        self.life += 1
+        self.app.gameFrame.lifeLabel.configure(text="Vies: " + str(self.life))
 
     def hit(self):
         self.life -= 1

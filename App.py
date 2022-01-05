@@ -11,7 +11,7 @@ class App:
         self.main = main
 
         self.damageDrawText = True
-        self.alienCollision = True
+        self.alienCollision = False
 
         self.tk = tk.Tk()
         self.tk.geometry(str(main.xSize) + "x" + str(main.ySize))
@@ -76,6 +76,13 @@ class App:
             image = Image.open("assets/hit_"+str(2 - i)+".png")
             image = image.resize((30, 30))
             self.assets['block_damages'].append(ImageTk.PhotoImage(image))
+
+        # HEALTH ENTITI
+        self.assets['heart'] = []
+        image = Image.open("assets/heart.png")
+        image = image.resize((10, 10))
+        self.assets['heart'].append(ImageTk.PhotoImage(image))
+
 
         self.assetsSize = {}
         for k,v in self.assets.items():

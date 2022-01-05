@@ -2,6 +2,7 @@ import tkinter as tk
 import math
 import Monster
 import Player
+import Heart
 
 class Projectile:
     def __init__(self, app, canvas, dir: list, pos: list, isplayer):
@@ -20,7 +21,7 @@ class Projectile:
     def update(self):
         self.pos[0] += self.dir[0] * self.speed
         self.pos[1] += self.dir[1] * self.speed
-        self.checkCollisions()
+        self.collide()
         if self.pos[0] < 0:
             self.remove()
         if self.pos[0] > int(self.canvas.cget('width')):
@@ -35,9 +36,11 @@ class Projectile:
         if self in self.app.gameFrame.entities:
             self.app.gameFrame.entities.remove(self)
 
-    def checkCollisions(self):
+    def collide(self):
         for ent in self.app.gameFrame.entities:
             if isinstance(ent, Projectile):
+                continue
+            if isinstance(ent, Heart.Heart):
                 continue
             elif not self.isplayer and isinstance(ent,Monster.Monster):
                 continue
