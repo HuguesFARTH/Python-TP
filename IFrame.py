@@ -3,7 +3,8 @@ import Player
 import Monster
 import Block
 import keyboard
-
+import random
+import Level
 
 class GameMenu:
     def __init__(self, app):
@@ -75,11 +76,15 @@ class GameFrame:
     def pauseFct(self, event):
         self.pause = not self.pause
         print("pause")
+
     def gameOverFct(self):
         print("game over")
         self.gameOver = True
 
-    def init(self):
+    def init(self, level = None):
+
+        self.level = Level.Level()
+
         # GAME
         self.entities = []
         self.score = 0
@@ -97,7 +102,7 @@ class GameFrame:
         self.topFrame = tk.Frame(self.leftFrame)
         self.topFrame.grid()
 
-        self.canvas = tk.Canvas(self.leftFrame, bg='black', width=900, height=550)
+        self.canvas = tk.Canvas(self.leftFrame, bg='black', width=self.app.main.canvasSize[0], height=self.app.main.canvasSize[1])
         self.canvas.grid(row=1)
 
         self.rightFrame = tk.Frame(self.frame)
@@ -109,24 +114,31 @@ class GameFrame:
         self.rejouerButton = tk.Button(self.rightFrame, text="New game", command=self.new_game)
         self.rejouerButton.grid(row=0)
 
+        # SPAWN DES ENTITES
         self.player = Player.Player(self.app, self.canvas)
         self.entities.append(self.player)
 
-        for i in range(0, 20):
-            stone = Block.Block(self.app, self.canvas, [30 * i, 200])
+        for info in self.level.blocksInfo:
+            stone = Block.Block(self.app, self.canvas, info[0], life = info[1])
             self.entities.append(stone)
 
-        for i in range(0, 1):
-            monster1 = Monster.Monster(self.app, self.canvas, [50 + i * 50, 100])
+        for i in range(0, 5):
+            shooter = True if random.randint(0,1) == 1 else False
+            boss = True if random.randint(0,1) == 1 else False
+            # boss = False
+            # shooter = False
+            # life = 5
+            monster1 = Monster.Monster(self.app, self.canvas, [50 + i * 50, 100], shooter = shooter, boss = boss)
             self.entities.append(monster1)
         self.app.tk.bind('<' + self.app.config['shoot'] + '>', self.player.shoot)
         self.scoreLabel = tk.Label(self.topFrame, text="Score: " + str(self.score))
         self.scoreLabel.grid(row=0, column=0)
 
+
         self.invi1 = tk.Label(self.topFrame, text="")
         self.invi1.grid(row=0, column=2, padx=100)
 
-        self.lifeLabel = tk.Label(self.topFrame, text="Lives: " + str(self.player.lives))
+        self.lifeLabel = tk.Label(self.topFrame, text="Vies: " + str(self.player.life))
         self.lifeLabel.grid(row=0, column=3)
 
     def new_game(self):
@@ -135,12 +147,22 @@ class GameFrame:
         self.Bind()
 
     def update(self):
-        # print("Update Frame")
-        # self.i += 1
         if self.pause or self.gameOver:
             return
         for ent in self.entities:
             ent.update()
+        for liste in self.level.monsterSpawnPoint:
+            if self.canSpawn(liste):
+                spawnMob(liste)
+
+    # TODO système de spawn
+
+    # l correspond à une liste info de spawn des monstres dans Level
+    def canSpawn(self,l):
+        return False
+
+    def spawnMob(self):
+        pass
 
     def draw(self):
         self.canvas.delete("all")

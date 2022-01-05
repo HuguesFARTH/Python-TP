@@ -10,6 +10,7 @@ class Main:
         self.TICK_CAP = 30
         self.xSize = 1000
         self.ySize = 600
+        self.canvasSize = [900, 540]
 
     def start(self):
         self.running = True

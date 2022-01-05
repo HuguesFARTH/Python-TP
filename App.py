@@ -10,6 +10,8 @@ class App:
         print("init App")
         self.main = main
 
+        self.damageDrawText = True
+        self.alienCollision = True
 
         self.tk = tk.Tk()
         self.tk.geometry(str(main.xSize) + "x" + str(main.ySize))
@@ -36,7 +38,8 @@ class App:
         # PLAYER
         self.assets['player'] = []
         image = Image.open("assets/player.png")
-        image = image.resize((100, 100))
+        image = image.resize((90, 90
+        ))
         self.assets['player'].append(ImageTk.PhotoImage(image))
 
         # MONSTER
@@ -44,6 +47,22 @@ class App:
         image = Image.open("assets/monster_yellow.png")
         image = image.resize((30, 30))
         self.assets['monster'].append(ImageTk.PhotoImage(image))
+        image = Image.open("assets/monster_orange.png")
+        image = image.resize((30, 30))
+        self.assets['monster'].append(ImageTk.PhotoImage(image))
+        image = Image.open("assets/monster_red.png")
+        image = image.resize((30, 30))
+        self.assets['monster'].append(ImageTk.PhotoImage(image))
+        image = Image.open("assets/monster_black_red.png")
+        image = image.resize((30, 30))
+        self.assets['monster'].append(ImageTk.PhotoImage(image))
+
+        # MONSTER DAMAGES
+        self.assets['monster_damages'] = []
+        for i in range(0,4):
+            image = Image.open("assets/monster_hit_"+str(3 - i)+".png")
+            image = image.resize((30, 30))
+            self.assets['monster_damages'].append(ImageTk.PhotoImage(image))
 
         # BLOCKS
         self.assets['block'] = []
@@ -53,11 +72,15 @@ class App:
 
         # BLOCKS DAMAGES
         self.assets['block_damages'] = []
-        for i in range(2,5):
-            image = Image.open("assets/hit_"+str(4 - i)+".png")
+        for i in range(0,3):
+            image = Image.open("assets/hit_"+str(2 - i)+".png")
             image = image.resize((30, 30))
             self.assets['block_damages'].append(ImageTk.PhotoImage(image))
 
+        self.assetsSize = {}
+        for k,v in self.assets.items():
+            self.assetsSize[k] = len(v)
+        print(self.assetsSize)
 
     def update(self):
         if self.menu == "play":
