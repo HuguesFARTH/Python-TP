@@ -24,7 +24,11 @@ class App:
 
         self.configObject = config.Config('config.ini')
         self.config = self.configObject.read_config()
+<<<<<<< Updated upstream
         
+=======
+
+>>>>>>> Stashed changes
         self.menu = "menu"
 
         self.gameFrame = IFrame.GameFrame(self)
