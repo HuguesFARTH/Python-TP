@@ -38,7 +38,7 @@ class App:
         # PLAYER
         self.assets['player'] = []
         image = Image.open("assets/player.png")
-        image = image.resize((90, 90
+        image = image.resize((45, 45
         ))
         self.assets['player'].append(ImageTk.PhotoImage(image))
 

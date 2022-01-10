@@ -4,19 +4,22 @@ from PIL import Image, ImageTk
 import keyboard
 import Projectile
 import config
-
+import Level
 
 class Player:
-    def __init__(self, app, canvas):
-        self.size = 90
-        self.life = 3
+    def __init__(self, app, canvas, level = Level.Level()):
         self.app = app
+        self.size = 45
+        self.life = level.playerLife
         self.canvas = canvas
         self.speed = 20
         self.pos = [0,0]
         self.lastShoot = 0
         self.shootRate = 1000 #TODO
         self.pos = [int(self.canvas.cget('width')) / 2, int(self.canvas.cget('height'))]
+        self.maxBullet = 10
+        self.bullet = self.maxBullet
+        self.bulletTick = 0
         # self.config = config.Config('config.ini').read_config()
         pass
 
@@ -36,6 +39,11 @@ class Player:
         #     self.up()
         # if keyboard.is_pressed(self.app.config['down']):
         #     self.down()
+        self.bulletTick += 1
+        if self.bulletTick > self.app.main.TICK_CAP*0.5:
+            self.bulletTick = 0
+            self.bullet = self.bullet + 1 if self.bullet < self.maxBullet else self.maxBullet
+
         if keyboard.is_pressed(self.app.config['left']):
             self.left()
         if keyboard.is_pressed(self.app.config['right']):
@@ -63,8 +71,11 @@ class Player:
     #         self.pos[1] = int(self.canvas.cget('height'))
 
     def shoot(self, event):
-        shoot = Projectile.Projectile(self.app, self.canvas, [0, -1], [self.pos[0], self.pos[1] - self.size / 2], True)
-        self.app.gameFrame.entities.append(shoot)
+        if self.bullet > 0:
+            # print(self.bullet)
+            self.bullet -= 1
+            shoot = Projectile.Projectile(self.app, self.canvas, [0, -1], [self.pos[0], self.pos[1] - self.size / 2], True)
+            self.app.gameFrame.entities.append(shoot)
 
     def remove(self):
         if self in self.app.gameFrame.entities:
