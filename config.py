@@ -61,8 +61,7 @@ class Config:
             self.default_config()
         return key_pressed
 
-
-
+print(keyboard.key_to_scan_codes('f'))
 # config = Config('config.ini')
 # print(config.modify_config())
 
