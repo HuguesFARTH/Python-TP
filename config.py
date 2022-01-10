@@ -70,3 +70,7 @@ class Config:
 # def key():
 #     a = keyboard.read_key(suppress=False)
 #     return a
+#
+# print(key())
+
+

@@ -232,6 +232,10 @@ class SettingsFrame:
         self.frame = None
         self.back = None
         self.pref = None
+        self.left = None
+        self.right = None
+        self.shoot = None
+        self.pause = None
 
         self.init()
 
@@ -275,20 +279,50 @@ class SettingsFrame:
         self.pause = tk.Label(self.frame, text="Pause:", font=("Arial", 25))
         self.pause.grid(column=0, pady=30,padx=10)
 
-        self.right_key = tk.Label(self.frame, text=self.app.config.get("shoot"), font=("Arial", 25))
-        self.right_key.grid(column=1, pady=30, row=2)
+        self.key_used()
 
-        self.left_button = tk.Button(self.frame, text="Modifier")
+        self.left_button = tk.Button(self.frame, text="Modifier", command=lambda: self.change_key())
         self.left_button.grid(column=2, pady=30, padx=20, row=1)
 
-        self.right_button = tk.Button(self.frame, text="Modifier")
+        self.right_button = tk.Button(self.frame, text="Modifier", command=lambda: self.change_key())
         self.right_button.grid(column=2, pady=30, padx=40, row=2)
 
-        self.shoot_button = tk.Button(self.frame, text="Modifier")
+        self.shoot_button = tk.Button(self.frame, text="Modifier", command=lambda: self.change_key())
         self.shoot_button.grid(column=2, pady=30, padx=20, row=3)
 
-        self.pause_button = tk.Button(self.frame, text="Modifier")
+        self.pause_button = tk.Button(self.frame, text="Modifier", command=lambda: self.change_key())
         self.pause_button.grid(column=2, pady=30, padx=20, row=4)
 
     def key_used(self):
-        return
+        self.left_key = tk.Label(self.frame, text=self.app.config.get("left"), font=("Arial", 25))
+        self.left_key.grid(column=1, pady=30, row=1)
+
+        self.right_key = tk.Label(self.frame, text=self.app.config.get("right"), font=("Arial", 25))
+        self.right_key.grid(column=1, pady=30, row=2)
+
+        self.shoot_key = tk.Label(self.frame, text=self.app.config.get("shoot"), font=("Arial", 25))
+        self.shoot_key.grid(column=1, pady=30, row=3)
+
+        self.pause_key = tk.Label(self.frame, text=self.app.config.get("pause"), font=("Arial", 25))
+        self.pause_key.grid(column=1, pady=30, row=4)
+
+
+    def change_key(self):
+        self.change_key_frame = tk.Toplevel()
+
+        self.key = tk.StringVar()
+        self.key_input = tk.Entry(self.change_key_frame, textvariable=self.key, validate='key', validatecommand=self.validate)
+        self.key_input.grid(row=0, column=0)
+
+        # self.validate_button = tk.Button(self.change_key_frame, text='Valider', command=lambda: self.validate() )
+        # self.validate_button.grid(row=0, column=1)
+
+        # self.validate_label = tk.Label(self.change_key_frame, text="Une seule entrée possible, réessayez", )
+        pass
+
+    def validate(self):
+        key_pressed = self.app.config.modify_config()
+        print(key_pressed)
+
+
+
