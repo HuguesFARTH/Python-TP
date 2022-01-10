@@ -211,11 +211,13 @@ class GameFrame:
 
     def unBind(self):
         self.frame.grid_forget()
+        self.player.unBind()
         self.app.tk.unbind('<' + self.app.config['shoot'] + '>')
         self.app.tk.unbind('<' + self.app.config['pause'] + '>')
 
     def Bind(self):
         self.frame.grid()
+        self.player.Bind()
         self.app.tk.bind('<' + self.app.config['shoot'] + '>', self.player.shoot)
         self.app.tk.bind('<' + self.app.config['pause'] + '>', self.pauseFct)
 
