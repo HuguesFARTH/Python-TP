@@ -321,7 +321,7 @@ class SettingsFrame:
         pass
 
     def validate(self):
-        key_pressed = self.app.config.modify_config()
+        key_pressed = self.app.configObject.modify_config()
         print(key_pressed)
 
 

@@ -22,8 +22,8 @@ class App:
         self.assets = {}
         self.initAssets()
 
-        self.config = config.Config('config.ini')
-        self.configDic = self.config.read_config()
+        self.configObject = config.Config('config.ini')
+        self.config = self.configObject.read_config()
         
         self.menu = "menu"
 

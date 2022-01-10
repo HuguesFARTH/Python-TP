@@ -55,7 +55,7 @@ class Config:
 
     def modify_config(self):
         if self.file_exist == True:
-            key_pressed = keyboard.read_key(suppress=False)
+            key_pressed = keyboard.read_hotkey(suppress = True)
         else:
             self.file_exist = True
             self.default_config()
