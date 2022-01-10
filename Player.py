@@ -44,18 +44,18 @@ class Player:
             self.bulletTick = 0
             self.bullet = self.bullet + 1 if self.bullet < self.maxBullet else self.maxBullet
 
-        # if keyboard.is_pressed(self.app.config['left']):
-        #     self.left()
-        # if keyboard.is_pressed(self.app.config['right']):
-        #     self.right()
+        if keyboard.is_pressed(self.app.config['left']):
+            self.left()
+        if keyboard.is_pressed(self.app.config['right']):
+            self.right()
         pass
 
-    def left(self,event):
+    def left(self):
         self.pos[0] -= self.speed
         if self.pos[0] < 0:
             self.pos[0] = 0
 
-    def right(self,event):
+    def right(self):
         self.pos[0] += self.speed
         if self.pos[0] > int(self.canvas.cget('width')):
             self.pos[0] = int(self.canvas.cget('width'))
@@ -97,11 +97,3 @@ class Player:
             self.kill()
         else:
             self.app.gameFrame.lifeLabel.configure(text="Vies: " + str(self.life))
-
-    def Bind(self):
-        self.app.tk.bind('<' + self.app.config['left'] + '>', self.left)
-        self.app.tk.bind('<' + self.app.config['right'] + '>', self.right)
-
-    def unBind(self):
-        self.app.tk.unbind('<' + self.app.config['left'] + '>')
-        self.app.tk.unbind('<' + self.app.config['right'] + '>')
