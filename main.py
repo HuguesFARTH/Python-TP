@@ -2,7 +2,6 @@ import App
 import time
 import config
 
-
 class Main:
     def __init__(self):
         self.running = False

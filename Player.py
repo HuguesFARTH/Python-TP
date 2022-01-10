@@ -1,7 +1,7 @@
 import configparser
 import tkinter as tk
 from PIL import Image, ImageTk
-import keyboard
+import keyboardCustom
 import Projectile
 import config
 import Level
@@ -44,9 +44,9 @@ class Player:
             self.bulletTick = 0
             self.bullet = self.bullet + 1 if self.bullet < self.maxBullet else self.maxBullet
 
-        if keyboard.is_pressed(self.app.config['left']):
+        if keyboardCustom.keyboard.press_key(self.app.config['left']):
             self.left()
-        if keyboard.is_pressed(self.app.config['right']):
+        if keyboardCustom.keyboard.press_key(self.app.config['right']):
             self.right()
         pass
 
