@@ -260,7 +260,10 @@ class SettingsFrame:
 
         self.back = tk.Button(self.frame, text="Retour", command=self.retour_menu, width=15, font=("Arial", 20))
         self.back.grid(row=5, column=0, columnspan=3, pady=30)
-        self.Bind()
+        self.changing = False
+        self.changingSection = 'left'
+        self.key_pressed = None
+
     def retour_menu(self):
         self.frame.grid_forget()
         self.app.menu = "menu"
@@ -281,16 +284,16 @@ class SettingsFrame:
 
         self.key_used()
 
-        self.left_button = tk.Button(self.frame, text="Modifier", command=lambda: self.change_key())
+        self.left_button = tk.Button(self.frame, text="Modifier", command=lambda: self.change_key('left'))
         self.left_button.grid(column=2, pady=30, padx=20, row=1)
 
-        self.right_button = tk.Button(self.frame, text="Modifier", command=lambda: self.change_key())
+        self.right_button = tk.Button(self.frame, text="Modifier", command=lambda: self.change_key('right'))
         self.right_button.grid(column=2, pady=30, padx=40, row=2)
 
-        self.shoot_button = tk.Button(self.frame, text="Modifier", command=lambda: self.change_key())
+        self.shoot_button = tk.Button(self.frame, text="Modifier", command=lambda: self.change_key('shoot'))
         self.shoot_button.grid(column=2, pady=30, padx=20, row=3)
 
-        self.pause_button = tk.Button(self.frame, text="Modifier", command=lambda: self.change_key())
+        self.pause_button = tk.Button(self.frame, text="Modifier", command=lambda: self.change_key('pause'))
         self.pause_button.grid(column=2, pady=30, padx=20, row=4)
 
     def key_used(self):
@@ -306,25 +309,29 @@ class SettingsFrame:
         self.pause_key = tk.Label(self.frame, text=self.app.config.get("pause"), font=("Arial", 25))
         self.pause_key.grid(column=1, pady=30, row=4)
 
+    def change_key(self, section):
+        if self.changing == True:
+            return
+        self.changing = True
+        self.changingSection = section
+        self.Bind()
+        if section == "left":
+            self.left_key.config(bg="blue")
+        return
 
-    def change_key(self):
-        self.change_key_frame = tk.Toplevel()
-
-        self.key = tk.StringVar()
-        self.key_input = tk.Entry(self.change_key_frame, textvariable=self.key, validate='key', validatecommand=self.validate)
-        self.key_input.grid(row=0, column=0)
-
-        # self.validate_button = tk.Button(self.change_key_frame, text='Valider', command=lambda: self.validate() )
-        # self.validate_button.grid(row=0, column=1)
-
-        # self.validate_label = tk.Label(self.change_key_frame, text="Une seule entrée possible, réessayez", )
-        pass
+    def keydown(self,event):
+        self.unBind()
+        if self.changingSection == "left":
+            self.left_key.config(text=event.keysym)
+            self.left_key.config(bg='red')
+        self.changing = False
+        print(self.changingSection)
 
     def Bind(self):
         self.app.tk.bind('<Key>',self.keydown)
 
-    def keydown(self,event):
-        print(event.keysym)
+    def unBind(self):
+        self.app.tk.bind('<Key>')
 
     def validate(self):
         # print(self.key.get())
