@@ -22,7 +22,9 @@ class App:
         self.assets = {}
         self.initAssets()
 
-        self.config = config.Config('config.ini').read_config()
+        self.config = config.Config('config.ini')
+        self.configDic = self.config.read_config()
+        
         self.menu = "menu"
 
         self.gameFrame = IFrame.GameFrame(self)

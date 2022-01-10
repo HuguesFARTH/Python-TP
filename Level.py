@@ -29,6 +29,6 @@ def loadLevel(saveName):
         return Level(monsterSpawnPoint = data['monsterSpawnPoint'], maxMonsters = data['maxMonsters'], blocksInfo = data['blocksInfo'], playerLife = data['playerLife'])
     return Level()
 
-saveName = "level_1"
-d = loadLevel(saveName)
-print(d.toJSON())
+# saveName = "level_1"
+# d = loadLevel(saveName)
+# print(d.toJSON())
