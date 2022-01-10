@@ -31,8 +31,8 @@ class Config:
         config = configparser.ConfigParser()
         config["move"] = {'up': "up",
                           'down': "down",
-                          'right': "Right",
-                          'left': "Left"}
+                          'right': "right",
+                          'left': "left"}
         config["shoot"] = {'shoot': "space"}
         config["pause"] = {'pause': "p"}
 
@@ -64,7 +64,7 @@ class Config:
 # config = Config('config.ini')
 # print(config.modify_config())
 
-
+#
 # def key():
 #     a = keyboard.read_key(suppress=False)
 #     return a

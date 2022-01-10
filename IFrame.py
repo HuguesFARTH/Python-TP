@@ -260,7 +260,7 @@ class SettingsFrame:
 
         self.back = tk.Button(self.frame, text="Retour", command=self.retour_menu, width=15, font=("Arial", 20))
         self.back.grid(row=5, column=0, columnspan=3, pady=30)
-
+        self.Bind()
     def retour_menu(self):
         self.frame.grid_forget()
         self.app.menu = "menu"
@@ -320,6 +320,15 @@ class SettingsFrame:
         # self.validate_label = tk.Label(self.change_key_frame, text="Une seule entrée possible, réessayez", )
         pass
 
+    def Bind(self):
+        self.app.tk.bind('<Key>',self.keydown)
+
+    def keydown(self,event):
+        print(event.keysym)
+
     def validate(self):
-        key_pressed = self.app.configObject.modify_config()
+        # print(self.key.get())
+        # print("test")
+        key_pressed = keyboard.read_key(suppress = True)#self.app.configObject.modify_config()
+        # self.key.set("test")
         print(key_pressed)
