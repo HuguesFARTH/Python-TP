@@ -323,6 +323,3 @@ class SettingsFrame:
     def validate(self):
         key_pressed = self.app.configObject.modify_config()
         print(key_pressed)
-
-
-
