@@ -12,7 +12,7 @@ class Projectile:
         self.pos = pos
         self.rayon = 5
         self.isplayer = isplayer
-        self.speed = 20
+        self.speed = 20 * self.app.config['bulletSpeed']
 
 
     def draw(self):

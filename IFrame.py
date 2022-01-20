@@ -5,6 +5,8 @@ import Block
 import keyboard
 import random
 import Level
+import configparser
+
 
 class GameMenu:
     def __init__(self, app):
@@ -70,7 +72,7 @@ class GameFrame:
         self.topFrame = None
         self.canvas = None
         self.rightFrame = None
-
+        self.gameOver = False
         self.init()
 
     def pauseFct(self, event):
@@ -81,9 +83,9 @@ class GameFrame:
         print("game over")
         self.gameOver = True
 
-    def init(self, level = None):
+    def init(self, level=Level.Level()):
 
-        self.level = Level.Level()
+        self.level = level
 
         # GAME
         self.entities = []
@@ -102,7 +104,8 @@ class GameFrame:
         self.topFrame = tk.Frame(self.leftFrame)
         self.topFrame.grid()
 
-        self.canvas = tk.Canvas(self.leftFrame, bg='black', width=self.app.main.canvasSize[0], height=self.app.main.canvasSize[1])
+        self.canvas = tk.Canvas(self.leftFrame, bg='black', width=self.app.main.canvasSize[0],
+                                height=self.app.main.canvasSize[1])
         self.canvas.grid(row=1)
 
         self.rightFrame = tk.Frame(self.frame)
@@ -122,13 +125,12 @@ class GameFrame:
 
         # Blocks
         for info in self.level.blocksInfo:
-            stone = Block.Block(self.app, self.canvas, info[0].copy(), life = info[1])
+            stone = Block.Block(self.app, self.canvas, info[0].copy(), life=info[1])
             self.entities.append(stone)
 
         self.app.tk.bind('<' + self.app.config['shoot'] + '>', self.player.shoot)
         self.scoreLabel = tk.Label(self.topFrame, text="Score: " + str(self.score))
         self.scoreLabel.grid(row=0, column=0)
-
 
         self.invi1 = tk.Label(self.topFrame, text="")
         self.invi1.grid(row=0, column=2, padx=100)
@@ -144,7 +146,8 @@ class GameFrame:
     def update(self):
 
         c = self.countMonsters()
-        self.numberSpeedCount = 0 if c == 0 else 0.5 if c >= self.level.maxMonsters else 1 - (0.5*c/self.level.maxMonsters)
+        self.numberSpeedCount = 0 if c == 0 else 0.5 if c >= self.level.maxMonsters else 1 - (
+                    0.5 * c / self.level.maxMonsters)
         if self.pause or self.gameOver:
             return
         # Update des entitées
@@ -173,14 +176,14 @@ class GameFrame:
     # TODO système de spawn
 
     # l correspond à une liste info de spawn des monstres dans Level
-    def canSpawn(self,l):
-        return random.randint(0,1000) <= 50
+    def canSpawn(self, l):
+        return random.randint(0, 1000) <= 50
 
-    def spawnMob(self,l):
+    def spawnMob(self, l):
         pos = l[0].copy()
-        boss = random.randint(0,1000) <= l[1]
-        shooter = random.randint(0,1000) <= l[2]
-        monster = Monster.Monster(self.app, self.canvas, pos, shooter = shooter, boss = boss)
+        boss = random.randint(0, 1000) <= l[1]
+        shooter = random.randint(0, 1000) <= l[2]
+        monster = Monster.Monster(self.app, self.canvas, pos, shooter=shooter, boss=boss)
         self.entities.append(monster)
 
     def draw(self):
@@ -211,13 +214,31 @@ class GameFrame:
 
     def unBind(self):
         self.frame.grid_forget()
+        self.app.tk.unbind('<Key>')
+        self.app.tk.unbind('<KeyRelease>')
         self.app.tk.unbind('<' + self.app.config['shoot'] + '>')
         self.app.tk.unbind('<' + self.app.config['pause'] + '>')
 
     def Bind(self):
         self.frame.grid()
+        self.app.tk.bind('<Key>', self.keydown)
+        self.app.tk.bind('<KeyRelease>', self.keydownRelease)
         self.app.tk.bind('<' + self.app.config['shoot'] + '>', self.player.shoot)
         self.app.tk.bind('<' + self.app.config['pause'] + '>', self.pauseFct)
+
+    def keydown(self,event):
+        if event.keysym == self.app.config['left']:
+            self.player.leftMove = True
+        if event.keysym == self.app.config['right']:
+            self.player.rightMove = True
+        pass
+
+    def keydownRelease(self,event):
+        if event.keysym == self.app.config['left']:
+            self.player.leftMove = False
+        if event.keysym == self.app.config['right']:
+            self.player.rightMove = False
+        pass
 
     def retour_menu(self):
         self.frame.grid_forget()
@@ -280,7 +301,7 @@ class SettingsFrame:
         self.shoot.grid(column=0, pady=30, padx=10)
 
         self.pause = tk.Label(self.frame, text="Pause:", font=("Arial", 25))
-        self.pause.grid(column=0, pady=30,padx=10)
+        self.pause.grid(column=0, pady=30, padx=10)
 
         self.key_used()
 
@@ -316,19 +337,43 @@ class SettingsFrame:
         self.changingSection = section
         self.Bind()
         if section == "left":
-            self.left_key.config(bg="blue")
+            self.left_key.config(bg="red")
+        if section == "right":
+            self.right_key.config(bg="red")
+        if section == "shoot":
+            self.shoot_key.config(bg="red")
+        if section == "pause":
+            self.pause_key.config(bg="red")
         return
 
-    def keydown(self,event):
-        self.unBind()
+    def keydown(self, event):
+        if self.changingSection == "":
+            self.unBind()
+            return
         if self.changingSection == "left":
             self.left_key.config(text=event.keysym)
-            self.left_key.config(bg='red')
+            self.left_key.config(bg='blue')
+
+        if self.changingSection == "right":
+            self.right_key.config(text=event.keysym)
+            self.right_key.config(bg='blue')
+
+        if self.changingSection == "shoot":
+            self.shoot_key.config(text=event.keysym)
+            self.shoot_key.config(bg='blue')
+
+        if self.changingSection == "pause":
+            self.pause_key.config(text=event.keysym)
+            self.pause_key.config(bg='blue')
+
+        self.app.config[self.changingSection] = event.keysym
+        self.app.update_config()
+        self.unBind()
         self.changing = False
-        print(self.changingSection)
+        self.changingSection = ""
 
     def Bind(self):
-        self.app.tk.bind('<Key>',self.keydown)
+        self.app.tk.bind('<Key>', self.keydown)
 
     def unBind(self):
         self.app.tk.bind('<Key>')
@@ -336,6 +381,5 @@ class SettingsFrame:
     def validate(self):
         # print(self.key.get())
         # print("test")
-        key_pressed = keyboard.read_key(suppress = True)#self.app.configObject.modify_config()
+        key_pressed = keyboard.read_key(suppress=True)  # self.app.configObject.modify_config()
         # self.key.set("test")
-        print(key_pressed)

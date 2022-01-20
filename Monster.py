@@ -16,7 +16,7 @@ class Monster:
         self.boss = boss
         self.app = app
         self.canvas = canvas
-        self.speed = 15
+        self.speed = 15 * self.app.config['monsterSpeed']
         self.pos = pos
         self.proba_tir = 1000/self.app.main.TICK_CAP
         self.collideCount = 0

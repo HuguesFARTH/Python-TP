@@ -12,7 +12,7 @@ class Player:
         self.size = 45
         self.life = level.playerLife
         self.canvas = canvas
-        self.speed = 20
+        self.speed = 20 * self.app.config['playerSpeed']
         self.pos = [0,0]
         self.lastShoot = 0
         self.shootRate = 1000 #TODO
@@ -20,6 +20,8 @@ class Player:
         self.maxBullet = 10
         self.bullet = self.maxBullet
         self.bulletTick = 0
+        self.rightMove = False
+        self.leftMove = False
         # self.config = config.Config('config.ini').read_config()
         pass
 
@@ -43,10 +45,9 @@ class Player:
         if self.bulletTick > self.app.main.TICK_CAP*0.5:
             self.bulletTick = 0
             self.bullet = self.bullet + 1 if self.bullet < self.maxBullet else self.maxBullet
-
-        if keyboard.is_pressed(self.app.config['left']):
+        if self.leftMove:
             self.left()
-        if keyboard.is_pressed(self.app.config['right']):
+        if self.rightMove:
             self.right()
         pass
 

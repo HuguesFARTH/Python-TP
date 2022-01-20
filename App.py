@@ -35,6 +35,8 @@ class App:
 
         self.menuFrame = IFrame.GameMenu(self)
 
+    def update_config(self):
+        self.configObject.modify_config(self.config)
 
     def initAssets(self):
         # PLAYER

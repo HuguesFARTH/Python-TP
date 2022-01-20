@@ -29,12 +29,13 @@ class Config:
         :return:
         """
         config = configparser.ConfigParser()
-        config["move"] = {'up': "up",
-                          'down': "down",
-                          'right': "right",
-                          'left': "left"}
+        config["move"] = {'right': "Right",
+                          'left': "Left"}
         config["shoot"] = {'shoot': "space"}
         config["pause"] = {'pause': "p"}
+        config["speed"] = {'playerSpeed': 1,
+                           'monsterSpeed': 1,
+                           'bulletSpeed': 1}
 
         with open(self.file_name, 'w') as configfile:
             config.write(configfile)
@@ -44,22 +45,47 @@ class Config:
         touches = {}
         config = configparser.ConfigParser()
         config.read(self.file_name)
-        touches['up'] = config['move']['up']
-        touches['down'] = config['move']['down']
-        touches['right'] = config['move']['right']
+        print(len(config.sections()))
+        if len(config.sections()) == 0:
+            self.default_config()
+        touches['right'] = config['move']['Right']
         touches['left'] = config['move']['left']
         touches['shoot'] = config['shoot']['shoot']
         touches['pause'] = config['pause']['pause']
+        try:
+            touches['playerSpeed'] = float(config['speed']['playerSpeed'])
+        except:
+            touches['playerSpeed'] = 1.0
+            print("exept player")
+        try:
+            touches['monsterSpeed'] = float(config['speed']['monsterSpeed'])
+        except:
+            print("exept monster")
+            touches['monsterSpeed'] = 1.0
+        try:
+            touches['bulletSpeed'] = float(config['speed']['bulletSpeed'])
+        except:
+            touches['bulletSpeed'] = 1.0
         return touches
 
 
-    def modify_config(self):
+    def modify_config(self,newConfigDic):
         if self.file_exist == True:
-            key_pressed = keyboard.read_key(suppress = True)
+            config = configparser.ConfigParser()
+            print(newConfigDic)
+            config["move"] = {
+                'right': newConfigDic["right"],
+                              'left': newConfigDic["left"]}
+            config["shoot"] = {'shoot': newConfigDic["shoot"]}
+            config["pause"] = {'pause': newConfigDic["pause"]}
+            config["speed"] = {'playerSpeed': newConfigDic["playerSpeed"],
+                               'monsterSpeed': newConfigDic["monsterSpeed"],
+                               'bulletSpeed': newConfigDic["bulletSpeed"]}
+            with open(self.file_name, 'w') as configfile:
+                config.write(configfile)
         else:
             self.file_exist = True
             self.default_config()
-        return key_pressed
 
 # config = Config('config.ini')
 # print(config.modify_config())

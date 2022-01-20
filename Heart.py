@@ -12,7 +12,7 @@ class Heart:
         self.dir = dir
         self.pos = pos
         self.size = 10
-        self.speed = 10
+        self.speed = 10 * self.app.config['bulletSpeed']
         self.textureId = textureId
 
     def draw(self):
