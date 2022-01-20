@@ -6,7 +6,7 @@ class Main:
     def __init__(self):
         self.running = False
         self.FRAME_CAP = 60
-        self.TICK_CAP = 60
+        self.TICK_CAP = 30
         self.xSize = 1000
         self.ySize = 600
         self.canvasSize = [900, 540]
