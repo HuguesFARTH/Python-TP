@@ -23,7 +23,7 @@ class Heart:
 
     def update(self):
         """
-
+        Update de l'entité tout les ticks
         :return:
         """
         lastMove = [self.pos[0],self.pos[1]]
@@ -57,7 +57,7 @@ class Heart:
     def collide(self):
         """
 
-        :return:
+        :return: True si il y a eu une collision
         """
         for ent in self.app.gameFrame.entities:
             if not isinstance(ent,Block.Block) and not isinstance(ent,Player.Player):
@@ -69,3 +69,4 @@ class Heart:
                     self.remove()
                     ent.heal()
                     return False
+        return False

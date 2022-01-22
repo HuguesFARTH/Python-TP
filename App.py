@@ -48,8 +48,7 @@ class App:
 
     def initAssets(self):
         """
-        initialise les assets donc les textures des joueurs et des monstres et des blocs.
-        Calcule également les collisions des blocs et des monstres
+        initialise les assets donc les textures des joueurs et des monstres et des blocks,les textures des blocs et des monstres une fois endommagés
         :return: rien
         """
         # PLAYER
@@ -108,7 +107,7 @@ class App:
 
     def update(self):
         """
-        update les frames en focntion de la valeur de self.menu qui indique à quelle page on doit se situer.
+        update les frames en fonction de la valeur de self.menu qui indique à quelle page on doit se situer.
         :return:
         """
         if self.menu == "play":
@@ -129,4 +128,5 @@ class App:
         affiche la bonne frame et le bon canvas.
         :return:
         """
-        self.gameFrame.draw()
+        if self.menu == "play":
+            self.gameFrame.draw()

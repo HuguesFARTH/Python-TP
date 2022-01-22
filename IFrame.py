@@ -318,7 +318,7 @@ class SettingsFrame:
 
     def init(self):
         """
-
+        initialisation de la frame
         :return:
         """
         self.frame = tk.Frame(self.app.tk, bg='gray')

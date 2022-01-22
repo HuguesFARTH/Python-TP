@@ -38,6 +38,7 @@ class Player:
     def update(self):
         """
         verify if a key is pressed and update the position of the player
+        Gère la regain des projectils que le joueur a.
         :return:
         """
         self.bulletTick += 1
@@ -52,7 +53,7 @@ class Player:
 
     def left(self):
         """
-
+        déplacement à gauche
         :return:
         """
         self.pos[0] -= self.speed
@@ -61,7 +62,7 @@ class Player:
 
     def right(self):
         """
-
+        déplacement à droite
         :return:
         """
         self.pos[0] += self.speed
@@ -70,7 +71,7 @@ class Player:
 
     def shoot(self, event):
         """
-
+        tir de projectile par le joueur
         :param event:
         :return:
         """
@@ -82,7 +83,7 @@ class Player:
 
     def remove(self):
         """
-
+        supprime le joueur
         :return:
         """
         if self in self.app.gameFrame.entities:
@@ -90,7 +91,7 @@ class Player:
 
     def kill(self):
         """
-
+        lors de la mort du joueur
         :return:
         """
         self.life = 0
@@ -100,7 +101,7 @@ class Player:
 
     def heal(self):
         """
-
+        donne 1 de vie au joueur
         :return:
         """
         self.life += 1
@@ -108,7 +109,7 @@ class Player:
 
     def hit(self):
         """
-
+        quand le joueur est touché
         :return:
         """
         self.life -= 1
