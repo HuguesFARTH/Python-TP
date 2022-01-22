@@ -6,6 +6,9 @@ import Projectile
 import Block
 
 class Heart:
+    """
+
+    """
     def __init__(self, app, canvas, dir: list, pos: list, textureId = 0):
         self.app = app
         self.canvas = canvas
@@ -19,6 +22,10 @@ class Heart:
         self.canvas.create_image(self.pos[0], self.pos[1], image = self.app.assets['heart'][self.textureId], anchor = "center")
 
     def update(self):
+        """
+
+        :return:
+        """
         lastMove = [self.pos[0],self.pos[1]]
         self.pos[0] += self.dir[0] * self.speed
         self.pos[1] += self.dir[1] * self.speed
@@ -37,6 +44,10 @@ class Heart:
             self.pos[1] = self.pos[1] + lastMove[1]
 
     def remove(self):
+        """
+
+        :return:
+        """
         if self in self.app.gameFrame.entities:
             self.app.gameFrame.entities.remove(self)
 
@@ -44,6 +55,10 @@ class Heart:
         self.remove()
 
     def collide(self):
+        """
+
+        :return:
+        """
         for ent in self.app.gameFrame.entities:
             if not isinstance(ent,Block.Block) and not isinstance(ent,Player.Player):
                 return False
@@ -54,16 +69,3 @@ class Heart:
                     self.remove()
                     ent.heal()
                     return False
-
-# root = tk.Tk()
-# root.geometry("600x600")
-# parent = tk.Canvas(root, width=500, height=500, bg= 'blue')
-#
-# parent.pack()
-# proj = Projectile(2,parent,[1.01,1.03], [200,220])
-#
-# btn = tk.Button(root, text='bonjour', command= lambda: proj.update())
-# btn.pack()
-#
-#
-# root.mainloop()

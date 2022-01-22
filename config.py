@@ -4,6 +4,9 @@ import os
 
 
 class Config:
+    """
+    classe qui gère le fichier config et la configuration des touches
+    """
     def __init__(self,file_name):
         self.file_name = file_name
         self.file_exist = False
@@ -42,6 +45,10 @@ class Config:
 
 
     def read_config(self):
+        """
+        lit le fichier config et stocke les données dans un dictionnaire
+        :return:
+        """
         touches = {}
         config = configparser.ConfigParser()
         config.read(self.file_name)
@@ -70,6 +77,11 @@ class Config:
 
 
     def modify_config(self,newConfigDic):
+        """
+        modifie la config et le fichier config
+        :param newConfigDic:
+        :return:
+        """
         if self.file_exist == True:
             config = configparser.ConfigParser()
             print(newConfigDic)
@@ -86,13 +98,3 @@ class Config:
         else:
             self.file_exist = True
             self.default_config()
-
-# config = Config('config.ini')
-# print(config.modify_config())
-
-#
-# def key():
-#     a = keyboard.read_key(suppress=False)
-#     return a
-#
-# print(key())

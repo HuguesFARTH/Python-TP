@@ -5,7 +5,6 @@ import Block
 import keyboard
 import random
 import Level
-import configparser
 
 
 class GameMenu:
@@ -19,6 +18,10 @@ class GameMenu:
         self.init()
 
     def init(self):
+        """
+
+        :return:
+        """
         self.frame = tk.Frame(self.app.tk, width=self.app.main.xSize, height=self.app.main.xSize)
         self.frame.grid(ipadx=0, ipady=30, padx=390, pady=200)
 
@@ -45,6 +48,10 @@ class GameMenu:
         self.frame.grid_forget()
 
     def play(self):
+        """
+
+        :return:
+        """
         self.frame.grid_forget()
         self.app.gameFrame.frame.grid()
         self.app.menu = "play"
@@ -54,6 +61,10 @@ class GameMenu:
         self.app.gameFrame.new_game()
 
     def settings(self):
+        """
+
+        :return:
+        """
         self.frame.grid_forget()
         self.app.settings.init()
         self.app.menu = "settings"
@@ -64,6 +75,8 @@ class GameMenu:
 class GameFrame:
     def __init__(self, app):
         self.app = app
+        self.pause = None
+        self.level = None
 
         self.entities = None
         self.score = None
@@ -84,6 +97,11 @@ class GameFrame:
         self.gameOver = True
 
     def init(self, level=Level.Level()):
+        """
+
+        :param level:
+        :return:
+        """
 
         self.level = level
 
@@ -139,6 +157,10 @@ class GameFrame:
         self.lifeLabel.grid(row=0, column=3)
 
     def new_game(self):
+        """
+
+        :return:
+        """
         self.unBind()
         self.init()
         self.Bind()
@@ -173,7 +195,6 @@ class GameFrame:
     def countMonsters(self):
         return len(self.getMonsters())
 
-    # TODO système de spawn
 
     # l correspond à une liste info de spawn des monstres dans Level
     def canSpawn(self, l):
@@ -187,6 +208,10 @@ class GameFrame:
         self.entities.append(monster)
 
     def draw(self):
+        """
+        clear le canvas puis le re-dessine en fonction de si le joueur a perdu ou met sur pause.
+        :return:
+        """
         self.canvas.delete("all")
         for ent in self.entities:
             ent.draw()
@@ -196,15 +221,21 @@ class GameFrame:
             self.drawPause()
 
     def drawGameOver(self):
+        """
+        affiche l'animation de game over.
+        :return:
+        """
         xp = (int(self.canvas.cget('width')) / 2)
         yp = (int(self.canvas.cget('height')) / 2)
         self.canvas.create_rectangle(0, 0, int(self.canvas.cget('width')) + 10, int(self.canvas.cget('height')) + 10,
                                      fill="gray", stipple="gray50")
         self.canvas.create_text(xp, yp, font="bold 40", text="Game Over", anchor="center")
-        # self.canvas.create_rectangle(xp-13,yp+25,xp-3,yp-50, fill="blue")
-        # self.canvas.create_rectangle(xp+3,yp+25,xp+13,yp-50, fill="blue")
 
     def drawPause(self):
+        """
+        affiche l'annimation de la pause.
+        :return:
+        """
         xp = (int(self.canvas.cget('width')) / 2)
         yp = (int(self.canvas.cget('height')) / 2)
         self.canvas.create_rectangle(0, 0, int(self.canvas.cget('width')) + 10, int(self.canvas.cget('height')) + 10,
@@ -213,6 +244,10 @@ class GameFrame:
         self.canvas.create_rectangle(xp + 3, yp + 25, xp + 13, yp - 50, fill="blue")
 
     def unBind(self):
+        """
+        délie les touches de clavier (est utilisé quand on est sur le menu ou pause.
+        :return:
+        """
         self.frame.grid_forget()
         self.app.tk.unbind('<Key>')
         self.app.tk.unbind('<KeyRelease>')
@@ -220,6 +255,10 @@ class GameFrame:
         self.app.tk.unbind('<' + self.app.config['pause'] + '>')
 
     def Bind(self):
+        """
+        lie les touches avec les actions pour pouvoir jouer
+        :return:
+        """
         self.frame.grid()
         self.app.tk.bind('<Key>', self.keydown)
         self.app.tk.bind('<KeyRelease>', self.keydownRelease)
@@ -227,6 +266,11 @@ class GameFrame:
         self.app.tk.bind('<' + self.app.config['pause'] + '>', self.pauseFct)
 
     def keydown(self,event):
+        """
+        vérifie si une touche est baissée et actionne le mouvement si c'est le cas
+        :param event: paramètre qui renvoie l'evenement qu'il recoit
+        :return:
+        """
         if event.keysym == self.app.config['left']:
             self.player.leftMove = True
         if event.keysym == self.app.config['right']:
@@ -234,6 +278,11 @@ class GameFrame:
         pass
 
     def keydownRelease(self,event):
+        """
+        vérifie si une touche est relevée et stoppe le mouvement si c'est le cas
+        :param event: paramètre qui renvoie l'evenement qu'il recoit
+        :return:
+        """
         if event.keysym == self.app.config['left']:
             self.player.leftMove = False
         if event.keysym == self.app.config['right']:
@@ -241,12 +290,19 @@ class GameFrame:
         pass
 
     def retour_menu(self):
+        """
+        retourne au menu : ferme la game frame et affiche la menu frame.
+        :return:
+        """
         self.frame.grid_forget()
         self.app.menu = "menu"
         self.app.menuFrame.init()
 
 
 class SettingsFrame:
+    """
+
+    """
     def __init__(self, app):
         self.app = app
 
@@ -261,6 +317,10 @@ class SettingsFrame:
         self.init()
 
     def init(self):
+        """
+
+        :return:
+        """
         self.frame = tk.Frame(self.app.tk, bg='gray')
         self.frame.grid()
 
@@ -286,11 +346,19 @@ class SettingsFrame:
         self.key_pressed = None
 
     def retour_menu(self):
+        """
+
+        :return:
+        """
         self.frame.grid_forget()
         self.app.menu = "menu"
         self.app.menuFrame.init()
 
-    def afficher_settings(self):  # TODO a tout refaire
+    def afficher_settings(self):
+        """
+
+        :return:
+        """
         self.left = tk.Label(self.frame, text="Gauche:", font=("Arial", 25))
         self.left.grid(column=0, pady=30, padx=10)
 
@@ -318,6 +386,10 @@ class SettingsFrame:
         self.pause_button.grid(column=2, pady=30, padx=20, row=4)
 
     def key_used(self):
+        """
+
+        :return:
+        """
         self.left_key = tk.Label(self.frame, text=self.app.config.get("left"), font=("Arial", 25))
         self.left_key.grid(column=1, pady=30, row=1)
 
@@ -331,6 +403,11 @@ class SettingsFrame:
         self.pause_key.grid(column=1, pady=30, row=4)
 
     def change_key(self, section):
+        """
+
+        :param section:
+        :return:
+        """
         if self.changing == True:
             return
         self.changing = True
@@ -347,6 +424,11 @@ class SettingsFrame:
         return
 
     def keydown(self, event):
+        """
+
+        :param event:
+        :return:
+        """
         if self.changingSection == "":
             self.unBind()
             return
@@ -373,13 +455,22 @@ class SettingsFrame:
         self.changingSection = ""
 
     def Bind(self):
+        """
+
+        :return:
+        """
         self.app.tk.bind('<Key>', self.keydown)
 
     def unBind(self):
+        """
+
+        :return:
+        """
         self.app.tk.bind('<Key>')
 
     def validate(self):
-        # print(self.key.get())
-        # print("test")
+        """
+
+        :return:
+        """
         key_pressed = keyboard.read_key(suppress=True)  # self.app.configObject.modify_config()
-        # self.key.set("test")

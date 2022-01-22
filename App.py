@@ -6,6 +6,11 @@ import IFrame
 import config
 
 class App:
+    """
+    classe principale du jeu qui va appeler les autres méthodes et classes
+    Initialise le menu et la configuration des touches
+
+    """
     def __init__(self, main):
         print("init App")
         self.main = main
@@ -22,8 +27,8 @@ class App:
         self.assets = {}
         self.initAssets()
 
-        self.configObject = config.Config('config.ini')
-        self.config = self.configObject.read_config()
+        self.configObject = config.Config('config.ini')    #classe config
+        self.config = self.configObject.read_config()     #dictionnaire contenant la configuration
 
         self.menu = "menu"
 
@@ -36,9 +41,17 @@ class App:
         self.menuFrame = IFrame.GameMenu(self)
 
     def update_config(self):
+        """
+        :return: update la config des objets du jeu
+        """
         self.configObject.modify_config(self.config)
 
     def initAssets(self):
+        """
+        initialise les assets donc les textures des joueurs et des monstres et des blocs.
+        Calcule également les collisions des blocs et des monstres
+        :return: rien
+        """
         # PLAYER
         self.assets['player'] = []
         image = Image.open("assets/player.png")
@@ -94,6 +107,10 @@ class App:
         print(self.assetsSize)
 
     def update(self):
+        """
+        update les frames en focntion de la valeur de self.menu qui indique à quelle page on doit se situer.
+        :return:
+        """
         if self.menu == "play":
             self.gameFrame.update()
             self.tk.update_idletasks()
@@ -108,4 +125,8 @@ class App:
             self.tk.update()
 
     def draw(self):
+        """
+        affiche la bonne frame et le bon canvas.
+        :return:
+        """
         self.gameFrame.draw()

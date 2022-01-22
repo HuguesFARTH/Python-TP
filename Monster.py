@@ -8,6 +8,9 @@ import math
 import Heart
 
 class Monster:
+    """
+
+    """
 
     # heartDropRate (0-100)
     def __init__(self,app,canvas,pos, life = None, shooter = False, boss = False, heartDropRate = 10):
@@ -28,6 +31,10 @@ class Monster:
         # self.downTimer = 100
 
     def draw(self):
+        """
+
+        :return:
+        """
         texture = 1 if self.shooter else 0
         texture += 2 if self.boss else 0
         self.canvas.create_image(self.pos[0], self.pos[1], image = self.app.assets['monster'][texture], anchor = "center")
@@ -39,15 +46,27 @@ class Monster:
 
 
     def getDamage(self):
+        """
+
+        :return:
+        """
         return int(self.damageP*self.life)
 
     def remove(self):
+        """
+
+        :return:
+        """
         if self in self.app.gameFrame.entities:
             self.app.gameFrame.entities.remove(self)
             self.app.gameFrame.score += self.getScore()
             self.app.gameFrame.scoreLabel.configure(text ="Score: " + str(self.app.gameFrame.score))
 
     def getScore(self):
+        """
+
+        :return:
+        """
         score = 100
         if self.shooter:
             score *= 2
@@ -56,12 +75,20 @@ class Monster:
         return score
 
     def kill(self):
+        """
+
+        :return:
+        """
         self.remove()
         if random.randint(0,100) <= self.heartDropRate:
             heart = Heart.Heart(self.app, self.canvas, [0,1], [self.pos[0]+self.size/2, self.pos[1]-self.size/2],textureId = 0)
             heart.app.gameFrame.entities.append(heart)
 
     def hit(self):
+        """
+
+        :return:
+        """
         self.life -= 1
         if self.life <= 0:
             self.kill()
@@ -70,6 +97,10 @@ class Monster:
         self.life += 1
 
     def update(self):
+        """
+
+        :return:
+        """
         lastMove = [self.pos[0],self.pos[1]]
         if self.collideCount % 2 == 0:
             self.pos[0] = self.pos[0] + self.speed * self.app.gameFrame.numberSpeedCount
@@ -96,6 +127,10 @@ class Monster:
             self.pos[1] = self.pos[1] + lastMove[1]
 
     def collide(self):
+        """
+
+        :return:
+        """
         for ent in self.app.gameFrame.entities:
             if self == ent:
                 continue
@@ -120,6 +155,10 @@ class Monster:
         return False
 
     def shoot(self):
+        """
+
+        :return:
+        """
         dir = [0,1]
         if self.boss:
             dir = [self.app.gameFrame.player.pos[0] - self.pos[0] if self.pos[0] != 0 else 1,self.app.gameFrame.player.pos[1] - self.pos[1] if self.pos[1] != 0 else 1]

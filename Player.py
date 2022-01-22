@@ -7,6 +7,9 @@ import config
 import Level
 
 class Player:
+    """
+
+    """
     def __init__(self, app, canvas, level = Level.Level()):
         self.app = app
         self.size = 45
@@ -37,10 +40,6 @@ class Player:
         verify if a key is pressed and update the position of the player
         :return:
         """
-        # if keyboard.is_pressed(self.app.config['up']):
-        #     self.up()
-        # if keyboard.is_pressed(self.app.config['down']):
-        #     self.down()
         self.bulletTick += 1
         if self.bulletTick > self.app.main.TICK_CAP*0.5:
             self.bulletTick = 0
@@ -52,26 +51,29 @@ class Player:
         pass
 
     def left(self):
+        """
+
+        :return:
+        """
         self.pos[0] -= self.speed
         if self.pos[0] < 0:
             self.pos[0] = 0
 
     def right(self):
+        """
+
+        :return:
+        """
         self.pos[0] += self.speed
         if self.pos[0] > int(self.canvas.cget('width')):
             self.pos[0] = int(self.canvas.cget('width'))
 
-    # def up(self):
-    #     self.pos[1] -= self.speed
-    #     if self.pos[1] < self.size / 2:
-    #         self.pos[1] = self.size / 2
-    #
-    # def down(self):
-    #     self.pos[1] += self.speed
-    #     if self.pos[1] > int(self.canvas.cget('height')):
-    #         self.pos[1] = int(self.canvas.cget('height'))
-
     def shoot(self, event):
+        """
+
+        :param event:
+        :return:
+        """
         if self.bullet > 0:
             # print(self.bullet)
             self.bullet -= 1
@@ -79,20 +81,36 @@ class Player:
             self.app.gameFrame.entities.append(shoot)
 
     def remove(self):
+        """
+
+        :return:
+        """
         if self in self.app.gameFrame.entities:
             self.app.gameFrame.entities.remove(self)
 
     def kill(self):
+        """
+
+        :return:
+        """
         self.life = 0
         self.app.gameFrame.lifeLabel.configure(text="Vies: " + str(self.life))
         self.remove()
         self.app.gameFrame.gameOverFct()
 
     def heal(self):
+        """
+
+        :return:
+        """
         self.life += 1
         self.app.gameFrame.lifeLabel.configure(text="Vies: " + str(self.life))
 
     def hit(self):
+        """
+
+        :return:
+        """
         self.life -= 1
         if self.life <= 0:
             self.kill()
