@@ -38,7 +38,7 @@ class Monster:
         texture = 1 if self.shooter else 0
         texture += 2 if self.boss else 0
         self.canvas.create_image(self.pos[0], self.pos[1], image = self.app.assets['monster'][texture], anchor = "center")
-        if self.app.damageDrawText:
+        if self.app.config['overlay'] == 1:
             self.canvas.create_text(self.pos[0], self.pos[1], fill = "blue" ,font="bold 15", text=self.life, anchor="center")
         else:
             if self.life < self.maxLife:

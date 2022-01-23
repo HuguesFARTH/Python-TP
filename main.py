@@ -14,7 +14,7 @@ class Main:
     def start(self):
         self.running = True
         self.app = App.App(self)
-        self.app.tk.title("space invader")
+        self.app.tk.title("Space invader")
         self.app.tk.protocol("WM_DELETE_WINDOW", self.stop)
         self.loop()
 
@@ -49,14 +49,13 @@ class Main:
                 self.draw()
                 frames += 1
             else:
-                time.sleep(1/1000)
+                time.sleep(1/500) # Mise en pause pendant 2ms
 
             if current_millis() - timer > 1000:
                 timer += 1000
                 print(ticks, " ticks, ",frames," fps")
                 ticks = 0
                 frames = 0
-
         self.exit()
 
     def update(self):
@@ -65,14 +64,11 @@ class Main:
     def draw(self):
         self.app.draw()
 
-
 def current_millis():
     return round(time.time() * 1000)
 
-
 def current_nano():
     return time.time_ns()
-
 
 if __name__ == "__main__":
     main = Main()

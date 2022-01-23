@@ -9,13 +9,11 @@ class App:
     """
     classe principale du jeu qui va appeler les autres méthodes et classes
     Initialise le menu et la configuration des touches
-
     """
     def __init__(self, main):
         print("init App")
         self.main = main
 
-        self.damageDrawText = True
         self.alienCollision = False
 
         self.tk = tk.Tk()
@@ -51,6 +49,13 @@ class App:
         initialise les assets donc les textures des joueurs et des monstres et des blocks,les textures des blocs et des monstres une fois endommagés
         :return: rien
         """
+        # BACKGROUND
+        self.assets['background'] = []
+        image = Image.open("assets/background.jpg")
+        image = image.resize((self.main.xSize, self.main.ySize
+        ))
+        self.assets['background'].append(ImageTk.PhotoImage(image))
+
         # PLAYER
         self.assets['player'] = []
         image = Image.open("assets/player.png")

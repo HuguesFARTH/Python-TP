@@ -6,7 +6,9 @@ import keyboard
 import random
 import Level
 
-
+"""
+Fenetre du menu
+"""
 class GameMenu:
     def __init__(self, app):
         self.app = app  # on importe la classe app
@@ -71,7 +73,9 @@ class GameMenu:
         self.app.update()
         self.unBind()
 
-
+"""
+Fenetre de jeu
+"""
 class GameFrame:
     def __init__(self, app):
         self.app = app
@@ -99,7 +103,7 @@ class GameFrame:
     def init(self, level=Level.Level()):
         """
 
-        :param level:
+        :param level: object niveau
         :return:
         """
 
@@ -184,7 +188,7 @@ class GameFrame:
                     c += 1
                     if c >= self.level.maxMonsters:
                         return
-
+    # Retourne la liste des monstres sur le terrain.
     def getMonsters(self):
         c = []
         for entity in self.entities:
@@ -192,6 +196,7 @@ class GameFrame:
                 c.append(entity)
         return c
 
+    # Retourne le nombre de monstres sur le terrain.
     def countMonsters(self):
         return len(self.getMonsters())
 
@@ -199,7 +204,9 @@ class GameFrame:
     # l correspond à une liste info de spawn des monstres dans Level
     def canSpawn(self, l):
         return random.randint(0, 1000) <= 50
-
+    """
+    Fonction permettant d"ajouter un ennemi.
+    """
     def spawnMob(self, l):
         pos = l[0].copy()
         boss = random.randint(0, 1000) <= l[1]
@@ -213,6 +220,8 @@ class GameFrame:
         :return:
         """
         self.canvas.delete("all")
+        # Background
+        self.canvas.create_image(0,0, image = self.app.assets['background'][0],anchor="nw")
         for ent in self.entities:
             ent.draw()
         if self.gameOver:
@@ -298,6 +307,9 @@ class GameFrame:
         self.app.menu = "menu"
         self.app.menuFrame.init()
 
+"""
+Fenetre pour les options
+"""
 
 class SettingsFrame:
     """
@@ -336,7 +348,8 @@ class SettingsFrame:
 
         self.pref = tk.Label(self.frame, text="Préférences clavier", font=("Arial", 25))
         self.pref.grid(columnspan=3, column=0, padx=20, pady=20)
-
+        self.pref = tk.Label(self.frame, text="Options", font=("Arial", 25))
+        self.pref.grid(columnspan=3,column = 3, row=0, padx=20, pady=20)
         self.afficher_settings()
 
         self.back = tk.Button(self.frame, text="Retour", command=self.retour_menu, width=15, font=("Arial", 20))
@@ -371,6 +384,13 @@ class SettingsFrame:
         self.pause = tk.Label(self.frame, text="Pause:", font=("Arial", 25))
         self.pause.grid(column=0, pady=30, padx=10)
 
+
+        self.overlay = tk.Checkbutton(self.frame, text = "Afficher les dégats sous forme de texte",onvalue = 1, offvalue = 0, command=lambda: self.changeOverlayStatut())
+        if self.app.config['overlay'] == 1:
+            self.overlay.select()
+        else:
+            self.overlay.deselect()
+        self.overlay.grid(row=1, column=3, pady=30, padx=20)
         self.key_used()
 
         self.left_button = tk.Button(self.frame, text="Modifier", command=lambda: self.change_key('left'))
@@ -385,6 +405,15 @@ class SettingsFrame:
         self.pause_button = tk.Button(self.frame, text="Modifier", command=lambda: self.change_key('pause'))
         self.pause_button.grid(column=2, pady=30, padx=20, row=4)
 
+
+    def changeOverlayStatut(self):
+        if self.app.config['overlay'] == 1:
+            self.app.config['overlay'] = 0
+            self.overlay.deselect()
+        else:
+            self.app.config['overlay'] = 1
+            self.overlay.select()
+        self.app.update_config()
     def key_used(self):
         """
 

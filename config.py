@@ -36,9 +36,11 @@ class Config:
                           'left': "Left"}
         config["shoot"] = {'shoot': "space"}
         config["pause"] = {'pause': "p"}
+        config["overlay"] = {'overlay': 1}
         config["speed"] = {'playerSpeed': 1,
                            'monsterSpeed': 1,
                            'bulletSpeed': 1}
+
 
         with open(self.file_name, 'w') as configfile:
             config.write(configfile)
@@ -52,13 +54,17 @@ class Config:
         touches = {}
         config = configparser.ConfigParser()
         config.read(self.file_name)
-        print(len(config.sections()))
         if len(config.sections()) == 0:
             self.default_config()
         touches['right'] = config['move']['Right']
         touches['left'] = config['move']['left']
         touches['shoot'] = config['shoot']['shoot']
         touches['pause'] = config['pause']['pause']
+        try:
+            touches['overlay'] = int(config['overlay']['overlay'])
+        except:
+            touches['overlay'] = 1
+            print("exept overlay")
         try:
             touches['playerSpeed'] = float(config['speed']['playerSpeed'])
         except:
@@ -84,12 +90,12 @@ class Config:
         """
         if self.file_exist == True:
             config = configparser.ConfigParser()
-            print(newConfigDic)
             config["move"] = {
                 'right': newConfigDic["right"],
                               'left': newConfigDic["left"]}
             config["shoot"] = {'shoot': newConfigDic["shoot"]}
             config["pause"] = {'pause': newConfigDic["pause"]}
+            config["overlay"] = {'overlay': newConfigDic["overlay"]}
             config["speed"] = {'playerSpeed': newConfigDic["playerSpeed"],
                                'monsterSpeed': newConfigDic["monsterSpeed"],
                                'bulletSpeed': newConfigDic["bulletSpeed"]}

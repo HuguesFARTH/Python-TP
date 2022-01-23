@@ -20,14 +20,14 @@ class Projectile:
 
     def draw(self):
         """
-
+        Affichage du projectile
         :return:
         """
         self.canvas.create_oval(self.pos[0]-self.rayon, self.pos[1]-self.rayon ,self.pos[0]+self.rayon , self.pos[1]+self.rayon, fill = "green" if self.isplayer else "red" )
 
     def update(self):
         """
-
+        update du projectile
         :return:
         """
         self.pos[0] += self.dir[0] * self.speed
@@ -53,7 +53,7 @@ class Projectile:
 
     def collide(self):
         """
-
+        Verifie la collision entre un projectile et un block/player/monster
         :return:
         """
         for ent in self.app.gameFrame.entities:
