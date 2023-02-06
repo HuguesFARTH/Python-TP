@@ -1,6 +1,5 @@
-# tp4
+## TP: Space Invaders
 Martin COVA et Hugues FARTHOUAT
-https://github.com/HuguesFARTH/tp4
 
 Cette version du Space Invaders comporte 4 types d'ennemis:
   - Jaune -> 1HP et ne tir pas et 10% de chance de drop un coeur.
